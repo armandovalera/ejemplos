@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ratw — Dale espacio a lo que importa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Playfair+Display:ital,wght@1,400&amp;display=swap">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: #e5e7eb;
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    .section {
+      font-family: 'Inter', sans-serif;
+      background-color: #e5e7eb;
+      padding: 16px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .section em {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    /* Contenedor interior con esquinas redondeadas de 32 px y máximo 1400 px */
+    .hero-container {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      border-radius: 32px;
+      overflow: hidden;
+      background-color: #18181b;
+      min-height: calc(100vh - 32px);
+      min-height: calc(100dvh - 32px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      isolation: isolate;
+    }
+
+    /* Video de fondo cubriendo únicamente el interior del contenedor */
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* Sombreado sutil para conservar legibilidad sin ocultar el fondo */
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgba(10, 14, 22, 0.42) 0%,
+        rgba(10, 14, 22, 0.08) 26%,
+        rgba(10, 14, 22, 0.08) 52%,
+        rgba(10, 14, 22, 0.68) 100%
+      );
+    }
+
+    /* Navegación superior */
+    .hero-header {
+      width: 100%;
+      padding: 24px 32px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 6px 8px;
+      border-radius: 10px;
+      transition: opacity 0.2s ease;
+    }
+
+    .brand:hover {
+      opacity: 0.9;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+      background: rgba(15, 23, 42, 0.28);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 6px;
+      border-radius: 9999px;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.2;
+      border-radius: 9999px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link[aria-current="page"] {
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-template {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: #ffffff;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 9999px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-template:hover {
+      background: rgba(255, 255, 255, 0.26);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Botón de menú plegable en móvil */
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.38);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: #ffffff;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(15, 23, 42, 0.55);
+    }
+
+    .menu-toggle svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    /* Menú plegable móvil */
+    .mobile-menu {
+      display: none;
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .mobile-menu[data-open="true"] {
+      display: block;
+    }
+
+    .mobile-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mobile-nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border-radius: 12px;
+      color: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link[aria-current="page"] {
+      background-color: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+    }
+
+    .mobile-menu-footer {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .mobile-menu-footer .btn-template {
+      width: 100%;
+      padding: 12px 18px;
+      font-size: 15px;
+    }
+
+    /* Espacio central despejado para apreciar el video */
+    .hero-spacer {
+      flex: 1 1 auto;
+      min-height: 180px;
+    }
+
+    /* Contenido inferior centrado */
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 24px 24px 52px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: 58px;
+      font-weight: 600;
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      text-wrap: balance;
+      margin-bottom: 18px;
+      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .hero-title em {
+      font-weight: 400;
+      padding-right: 0.04em;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.92);
+      max-width: 540px;
+      margin-bottom: 28px;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, 0.22);
+    }
+
+    .hero-cta {
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #0f172a;
+      background-color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 9999px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.32);
+      transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hero-cta:hover {
+      background-color: #f8fafc;
+      box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.38);
+    }
+
+    .hero-cta:active {
+      transform: scale(0.99);
+    }
+
+    .hero-cta[data-pressed="true"] {
+      background-color: #f1f5f9;
+    }
+
+    /* Foco visible accesible para navegación por teclado */
+    .brand:focus-visible,
+    .nav-link:focus-visible,
+    .btn-template:focus-visible,
+    .menu-toggle:focus-visible,
+    .mobile-nav-link:focus-visible,
+    .hero-cta:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 3px;
+    }
+
+    /* Región solo para lectores de pantalla */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Entrada suave y única cuando el usuario no solicita movimiento reducido */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-content {
+        animation: heroFadeEntrance 0.75s cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+      }
+    }
+
+    @keyframes heroFadeEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Con movimiento reducido se omiten las entradas animadas y transiciones */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-content {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Adaptación para móvil: título a 40 px, menú plegable, sin recortes */
+    @media (max-width: 860px) {
+      .nav-links,
+      .nav-actions {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .hero-header {
+        padding: 18px 20px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .hero-title {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.06;
+      }
+
+      .hero-description {
+        font-size: 16px;
+        margin-bottom: 24px;
+      }
+
+      .hero-content {
+        padding: 20px 18px 32px;
+      }
+
+      .hero-spacer {
+        min-height: 120px;
+      }
+
+      .hero-cta {
+        padding: 14px 26px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="section" id="inicio" aria-label="Sección principal de productividad">
+    <div class="hero-container">
+      <video
+        id="hero-video"
+        class="hero-video"
+        src="https://media.dinamosites.com/library/v1/sections/own-flowers-woman-v2-loop-99ac1e069f1e.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+      ></video>
+      <div class="hero-scrim" aria-hidden="true"></div>
+
+      <header class="hero-header">
+        <nav class="nav-bar" aria-label="Navegación principal">
+          <a href="#inicio" class="brand" data-nav-item="ratw">Ratw</a>
+
+          <ul class="nav-links" id="planes">
+            <li><a href="#inicio" class="nav-link" aria-current="page" data-nav-item="inicio">Inicio</a></li>
+            <li><a href="#planes" class="nav-link" data-nav-item="planes">Planes</a></li>
+            <li><a href="#nosotros" class="nav-link" data-nav-item="nosotros">Nosotros</a></li>
+            <li><a href="#ideas" class="nav-link" data-nav-item="ideas">Ideas</a></li>
+            <li><a href="#contacto" class="nav-link" data-nav-item="contacto">Contacto</a></li>
+          </ul>
+
+          <div class="nav-actions" id="plantilla">
+            <a href="#plantilla" class="btn-template" data-nav-item="plantilla">Ver plantilla</a>
+          </div>
+
+          <button
+            type="button"
+            id="menu-toggle"
+            class="menu-toggle"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Abrir menú de navegación"
+          >
+            <svg id="icon-menu" viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="4" y1="7" x2="20" y2="7"></line>
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="17" x2="20" y2="17"></line>
+            </svg>
+            <svg id="icon-close" viewBox="0 0 24 24" aria-hidden="true" style="display: none;">
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+              <line x1="6" y1="18" x2="18" y2="6"></line>
+            </svg>
+          </button>
+        </nav>
+
+        <div id="mobile-menu" class="mobile-menu" data-open="false" aria-label="Menú móvil">
+          <ul class="mobile-nav-list" id="nosotros">
+            <li><a href="#inicio" class="mobile-nav-link" aria-current="page" data-nav-item="inicio">Inicio</a></li>
+            <li><a href="#planes" class="mobile-nav-link" data-nav-item="planes">Planes</a></li>
+            <li><a href="#nosotros" class="mobile-nav-link" data-nav-item="nosotros">Nosotros</a></li>
+            <li id="ideas"><a href="#ideas" class="mobile-nav-link" data-nav-item="ideas">Ideas</a></li>
+            <li id="contacto"><a href="#contacto" class="mobile-nav-link" data-nav-item="contacto">Contacto</a></li>
+          </ul>
+          <div class="mobile-menu-footer">
+            <a href="#plantilla" class="btn-template" data-nav-item="plantilla">Ver plantilla</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="hero-spacer" aria-hidden="true"></div>
+
+      <div class="hero-content" id="organiza">
+        <h1 class="hero-title">Dale espacio a lo que <em>importa</em></h1>
+        <p class="hero-description">Tus tareas en orden. Tu atención en lo importante.</p>
+        <button type="button" id="cta-organiza" class="hero-cta">Organiza tu día</button>
+        <span id="status-announcer" class="sr-only" aria-live="polite"></span>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const video = document.getElementById('hero-video');
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const iconMenu = document.getElementById('icon-menu');
+      const iconClose = document.getElementById('icon-close');
+      const navItems = document.querySelectorAll('[data-nav-item]');
+      const ctaButton = document.getElementById('cta-organiza');
+      const announcer = document.getElementById('status-announcer');
+
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let isIntersecting = true;
+
+      function syncVideoPlayback() {
+        if (!video) return;
+
+        if (reducedMotionQuery.matches) {
+          video.removeAttribute('autoplay');
+          video.pause();
+          return;
+        }
+
+        if (isIntersecting && !document.hidden) {
+          const playPromise = video.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(function () {});
+          }
+        } else {
+          video.pause();
+        }
+      }
+
+      if (video) {
+        video.addEventListener('loadeddata', function () {
+          if (reducedMotionQuery.matches) {
+            video.pause();
+          }
+        });
+
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                isIntersecting = entry.isIntersecting;
+                syncVideoPlayback();
+              });
+            },
+            { threshold: 0.1 }
+          );
+          observer.observe(video);
+        }
+
+        document.addEventListener('visibilitychange', syncVideoPlayback);
+
+        if (typeof reducedMotionQuery.addEventListener === 'function') {
+          reducedMotionQuery.addEventListener('change', syncVideoPlayback);
+        } else if (typeof reducedMotionQuery.addListener === 'function') {
+          reducedMotionQuery.addListener(syncVideoPlayback);
+        }
+
+        syncVideoPlayback();
+      }
+
+      function setMenuState(open) {
+        if (!menuToggle || !mobileMenu) return;
+        menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menuToggle.setAttribute(
+          'aria-label',
+          open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'
+        );
+        mobileMenu.setAttribute('data-open', open ? 'true' : 'false');
+        if (iconMenu && iconClose) {
+          iconMenu.style.display = open ? 'none' : 'block';
+          iconClose.style.display = open ? 'block' : 'none';
+        }
+      }
+
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function () {
+          const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+          setMenuState(!isOpen);
+        });
+
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+            setMenuState(false);
+            menuToggle.focus();
+          }
+        });
+
+        window.addEventListener('resize', function () {
+          if (window.innerWidth > 860 && menuToggle.getAttribute('aria-expanded') === 'true') {
+            setMenuState(false);
+          }
+        });
+      }
+
+      navItems.forEach(function (item) {
+        item.addEventListener('click', function (event) {
+          event.preventDefault();
+          const key = item.getAttribute('data-nav-item');
+
+          if (key && key !== 'ratw' && key !== 'plantilla') {
+            document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(function (link) {
+              if (link.getAttribute('data-nav-item') === key) {
+                link.setAttribute('aria-current', 'page');
+              } else {
+                link.removeAttribute('aria-current');
+              }
+            });
+          }
+
+          if (menuToggle && menuToggle.getAttribute('aria-expanded') === 'true') {
+            setMenuState(false);
+          }
+
+          if (announcer) {
+            announcer.textContent = 'Sección seleccionada: ' + (item.textContent || '').trim();
+          }
+        });
+      });
+
+      if (ctaButton) {
+        ctaButton.addEventListener('click', function () {
+          const pressed = ctaButton.getAttribute('data-pressed') === 'true';
+          ctaButton.setAttribute('data-pressed', pressed ? 'false' : 'true');
+          if (announcer) {
+            announcer.textContent = 'Acción demostrativa: Organiza tu día';
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

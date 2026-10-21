@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pulso//glitch — Retro-Futurismo Terminal</title>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&amp;display=swap">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500&amp;display=swap">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=excon@400,700&amp;display=swap">
+  <style>
+    :root {
+      --bg: #040604;
+      --ink: #39ff14;
+      --ink-dim: rgba(57, 255, 20, 0.68);
+      --ink-muted: rgba(57, 255, 20, 0.28);
+      --ink-faint: rgba(57, 255, 20, 0.12);
+      --ink-glow: rgba(57, 255, 20, 0.45);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: #040604;
+      color: #39ff14;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .section-copy,
+    .section-nav {
+      font-family: 'Satoshi', sans-serif;
+    }
+
+    .section-title {
+      font-family: 'Excon', sans-serif;
+    }
+
+    /* Hero Container & Entrance Animation (1.4s from opacity:0, scale(0.96), blur(8px)) */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-color: #040604;
+      color: #39ff14;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1.25rem, 4vw, 3.5rem);
+      overflow: hidden;
+      isolation: isolate;
+      opacity: 0;
+      transform: scale(0.96);
+      filter: blur(8px);
+      animation: hero-enter 1.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+
+    @keyframes hero-enter {
+      0% {
+        opacity: 0;
+        transform: scale(0.96);
+        filter: blur(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    /* Atmospheric Layer 1: Perspective Green Grid Floor */
+    .hero-floor-stage {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: -3;
+      overflow: hidden;
+      perspective: 420px;
+      perspective-origin: 50% 48%;
+    }
+
+    .hero-floor-horizon {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 48%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(57, 255, 20, 0.18) 20%,
+        rgba(57, 255, 20, 0.55) 50%,
+        rgba(57, 255, 20, 0.18) 80%,
+        transparent 100%
+      );
+      box-shadow: 0 0 28px 4px rgba(57, 255, 20, 0.25);
+    }
+
+    .hero-floor-grid {
+      position: absolute;
+      left: -50%;
+      right: -50%;
+      bottom: -35%;
+      height: 88%;
+      transform-origin: 50% 0%;
+      transform: rotateX(74deg);
+      background-image:
+        linear-gradient(to right, rgba(57, 255, 20, 0.26) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(57, 255, 20, 0.28) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 70% 85% at 50% 0%, #000 15%, transparent 78%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 85% at 50% 0%, #000 15%, transparent 78%);
+      animation: grid-drift 6s linear infinite;
+    }
+
+    @keyframes grid-drift {
+      0% {
+        background-position: 0 0, 0 0;
+      }
+      100% {
+        background-position: 0 56px, 0 56px;
+      }
+    }
+
+    /* Atmospheric Layer 2: Subtle Scanlines */
+    .hero-scanlines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(4, 6, 4, 0) 0px,
+        rgba(4, 6, 4, 0) 2px,
+        rgba(4, 6, 4, 0.34) 3px,
+        rgba(57, 255, 20, 0.022) 4px
+      );
+      mix-blend-mode: screen;
+    }
+
+    /* Atmospheric Layer 3: Vignette */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      background: radial-gradient(
+        circle at 50% 46%,
+        rgba(4, 6, 4, 0) 32%,
+        rgba(4, 6, 4, 0.55) 72%,
+        rgba(4, 6, 4, 0.94) 100%
+      );
+    }
+
+    /* Header: Brand + Navigation */
+    .hero-header {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem 1.75rem;
+      border-bottom: 1px solid var(--ink-muted);
+      padding-bottom: 1rem;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: clamp(1rem, 1.35vw, 1.25rem);
+      letter-spacing: 0.04em;
+      color: #39ff14;
+      text-decoration: none;
+      text-shadow: 0 0 12px rgba(57, 255, 20, 0.45);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+
+    .brand-slashes {
+      font-weight: 400;
+      opacity: 0.8;
+      margin: 0 0.08em;
+    }
+
+    .section-nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem clamp(1rem, 2.5vw, 2.25rem);
+      list-style: none;
+    }
+
+    .nav-link {
+      font-weight: 400;
+      font-size: clamp(0.85rem, 1vw, 0.95rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #39ff14;
+      text-decoration: none;
+      padding: 0.25rem 0.4rem;
+      position: relative;
+      transition: text-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .nav-link::before {
+      content: "";
+      position: absolute;
+      left: 0.4rem;
+      right: 0.4rem;
+      bottom: 0;
+      height: 1px;
+      background-color: #39ff14;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.22s ease;
+    }
+
+    .nav-link:hover {
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.75);
+    }
+
+    .nav-link:hover::before {
+      transform: scaleX(1);
+    }
+
+    /* Visible Focus States */
+    .brand:focus-visible,
+    .nav-link:focus-visible,
+    .hero-btn:focus-visible {
+      outline: 2px solid #39ff14;
+      outline-offset: 4px;
+      box-shadow: 0 0 16px rgba(57, 255, 20, 0.65);
+    }
+
+    /* Center Stage: H1 Title with Clipped Pseudo-elements for Brief Glitch */
+    .hero-center {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin: auto 0;
+      padding: clamp(2rem, 5vh, 4rem) 0;
+      width: 100%;
+    }
+
+    .hero-title {
+      position: relative;
+      display: inline-block;
+      font-family: 'Excon', sans-serif;
+      font-weight: 400;
+      font-size: 13vw;
+      line-height: 0.86;
+      letter-spacing: -0.02em;
+      text-transform: lowercase;
+      color: #39ff14;
+      text-align: center;
+      white-space: pre-line;
+      user-select: none;
+      text-shadow:
+        0 0 16px rgba(57, 255, 20, 0.55),
+        0 0 42px rgba(57, 255, 20, 0.28),
+        0 0 88px rgba(57, 255, 20, 0.16);
+    }
+
+    /* Duplicated clipped pseudo-elements for brief glitch, never permanently displacing text */
+    .hero-title::before,
+    .hero-title::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      color: #39ff14;
+      white-space: pre-line;
+      opacity: 0;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .hero-title::before {
+      clip-path: inset(14% 0 58% 0);
+      text-shadow: -2px 0 rgba(57, 255, 20, 0.85), 0 0 18px rgba(57, 255, 20, 0.5);
+      animation: glitch-slice-top 4.8s steps(1, end) infinite;
+    }
+
+    .hero-title::after {
+      clip-path: inset(62% 0 10% 0);
+      text-shadow: 2px 0 rgba(57, 255, 20, 0.85), 0 0 18px rgba(57, 255, 20, 0.5);
+      animation: glitch-slice-bottom 4.8s steps(1, end) infinite;
+    }
+
+    @keyframes glitch-slice-top {
+      0%, 86%, 94%, 100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0);
+        clip-path: inset(14% 0 58% 0);
+      }
+      87% {
+        opacity: 1;
+        transform: translate3d(-6px, 0, 0);
+        clip-path: inset(12% 0 62% 0);
+      }
+      89% {
+        opacity: 1;
+        transform: translate3d(5px, -1px, 0);
+        clip-path: inset(34% 0 40% 0);
+      }
+      91% {
+        opacity: 1;
+        transform: translate3d(-3px, 1px, 0);
+        clip-path: inset(8% 0 70% 0);
+      }
+      93% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes glitch-slice-bottom {
+      0%, 86%, 94%, 100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0);
+        clip-path: inset(62% 0 10% 0);
+      }
+      87.5% {
+        opacity: 1;
+        transform: translate3d(6px, 0, 0);
+        clip-path: inset(66% 0 8% 0);
+      }
+      89.5% {
+        opacity: 1;
+        transform: translate3d(-5px, 1px, 0);
+        clip-path: inset(48% 0 24% 0);
+      }
+      91.5% {
+        opacity: 1;
+        transform: translate3d(3px, 0, 0);
+        clip-path: inset(74% 0 6% 0);
+      }
+      93.5% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    /* Bottom Area: Tag, 4-line Terminal, and Square Buttons */
+    .hero-bottom {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 1.5rem 2.5rem;
+      border-top: 1px solid var(--ink-muted);
+      padding-top: 1.25rem;
+    }
+
+    .hero-bottom-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.85rem;
+      min-width: 0;
+    }
+
+    .retro-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #39ff14;
+      border: 1px solid rgba(57, 255, 20, 0.48);
+      background-color: rgba(57, 255, 20, 0.06);
+      padding: 0.28rem 0.65rem;
+      box-shadow: 0 0 12px rgba(57, 255, 20, 0.12);
+    }
+
+    .retro-tag-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #39ff14;
+      box-shadow: 0 0 8px #39ff14;
+      display: inline-block;
+    }
+
+    /* 4-Line Terminal in Excon */
+    .terminal {
+      font-family: 'Excon', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.82rem, 1.05vw, 0.96rem);
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+      color: #39ff14;
+      background-color: rgba(4, 6, 4, 0.78);
+      border-left: 2px solid #39ff14;
+      padding: 0.45rem 0.85rem;
+      max-width: 100%;
+      box-shadow: inset 0 0 18px rgba(57, 255, 20, 0.05);
+    }
+
+    .terminal-line {
+      opacity: 0;
+      transform: translateY(4px);
+      animation: terminal-reveal 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: calc(var(--line-idx, 1) * 0.35s);
+      overflow-wrap: anywhere;
+    }
+
+    .terminal-line::before {
+      content: "> ";
+      opacity: 0.65;
+    }
+
+    .terminal-cursor {
+      display: inline-block;
+      animation: cursor-blink 1s steps(2, start) infinite;
+      font-weight: 700;
+    }
+
+    @keyframes terminal-reveal {
+      0% {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cursor-blink {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* Square Buttons: [entrar] and [leer manifiesto] */
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .hero-btn {
+      appearance: none;
+      border-radius: 0;
+      border: 1px solid #39ff14;
+      background-color: rgba(4, 6, 4, 0.85);
+      color: #39ff14;
+      font-family: 'Satoshi', sans-serif;
+      font-weight: 500;
+      font-size: clamp(0.85rem, 1vw, 0.95rem);
+      letter-spacing: 0.05em;
+      padding: 0.8rem 1.35rem;
+      cursor: pointer;
+      transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
+      text-shadow: 0 0 8px rgba(57, 255, 20, 0.35);
+      box-shadow: 0 0 14px rgba(57, 255, 20, 0.12);
+    }
+
+    .hero-btn-primary {
+      background-color: rgba(57, 255, 20, 0.12);
+      box-shadow: 0 0 18px rgba(57, 255, 20, 0.22);
+    }
+
+    .hero-btn:hover {
+      background-color: #39ff14;
+      color: #040604;
+      text-shadow: none;
+      box-shadow: 0 0 24px rgba(57, 255, 20, 0.55);
+    }
+
+    .hero-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Offscreen Pause State */
+    .hero.is-paused,
+    .hero.is-paused *,
+    .hero.is-paused *::before,
+    .hero.is-paused *::after {
+      animation-play-state: paused !important;
+    }
+
+    /* Mobile Adjustments to Prevent Clipping & Overflow */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 1rem 1.1rem 1.25rem;
+      }
+
+      .hero-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.65rem;
+      }
+
+      .section-nav {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.4rem 0.75rem;
+      }
+
+      .nav-link {
+        padding: 0.2rem 0.15rem;
+        font-size: 0.82rem;
+      }
+
+      .hero-bottom {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+        gap: 1.15rem;
+      }
+
+      .hero-actions {
+        width: 100%;
+      }
+
+      .hero-btn {
+        flex: 1 1 auto;
+        text-align: center;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    /* Reduced Motion Preference */
+    @media (prefers-reduced-motion: reduce) {
+      .hero {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
+
+      .hero-floor-grid,
+      .hero-title::before,
+      .hero-title::after,
+      .terminal-cursor {
+        animation: none !important;
+      }
+
+      .hero-title::before,
+      .hero-title::after {
+        opacity: 0 !important;
+        transform: none !important;
+      }
+
+      .terminal-line {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="hero-section" aria-label="pulso // glitch hero">
+    <!-- Perspective Green Grid Floor -->
+    <div class="hero-floor-stage" aria-hidden="true">
+      <div class="hero-floor-horizon"></div>
+      <div class="hero-floor-grid"></div>
+    </div>
+
+    <!-- Vignette & Subtle Scanlines -->
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-scanlines" aria-hidden="true"></div>
+
+    <!-- Top Brand & Navigation -->
+    <header class="hero-header">
+      <a href="#hero-section" class="brand section-title" aria-label="pulso//glitch">
+        <span>pulso</span><span class="brand-slashes">//</span><span>glitch</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="section-nav">
+          <li><a href="#archivo" class="nav-link" id="archivo">Archivo</a></li>
+          <li><a href="#senal" class="nav-link" id="senal">Señal</a></li>
+          <li><a href="#manifiesto" class="nav-link" id="manifiesto">Manifiesto</a></li>
+          <li><a href="#acceso" class="nav-link" id="acceso">Acceso</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Center Two-Line Lowercase H1 with Clipped Glitch Pseudo-elements -->
+    <div class="hero-center">
+      <h1 class="section-title hero-title" data-text="pulso&#10;glitch">pulso
+glitch</h1>
+    </div>
+
+    <!-- Bottom Tag, 4-line Terminal, and Square Action Buttons -->
+    <footer class="hero-bottom">
+      <div class="hero-bottom-left">
+        <span class="retro-tag section-copy">
+          <span class="retro-tag-dot" aria-hidden="true"></span>
+          retro-futurismo
+        </span>
+
+        <div class="terminal section-title" role="status" aria-live="polite" aria-label="Terminal del sistema">
+          <p class="terminal-line" style="--line-idx: 1;">iniciando pulso.sys</p>
+          <p class="terminal-line" style="--line-idx: 2;">cargando módulos… ok</p>
+          <p class="terminal-line" style="--line-idx: 3;">sincronizando red 1987… ok</p>
+          <p class="terminal-line" style="--line-idx: 4;">bienvenido, operador<span class="terminal-cursor">_</span></p>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button type="button" class="hero-btn hero-btn-primary section-copy" id="btn-entrar">[entrar]</button>
+        <button type="button" class="hero-btn section-copy" id="btn-manifiesto">[leer manifiesto]</button>
+      </div>
+    </footer>
+  </section>
+
+  <script>
+    (function () {
+      const hero = document.getElementById('hero-section');
+      if (!hero) return;
+
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let isInViewport = true;
+
+      function syncAnimationState() {
+        const shouldPause =
+          reducedMotionQuery.matches ||
+          document.hidden ||
+          !isInViewport;
+        hero.classList.toggle('is-paused', shouldPause);
+      }
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              isInViewport = entry.isIntersecting;
+              syncAnimationState();
+            });
+          },
+          { threshold: 0.05 }
+        );
+        observer.observe(hero);
+      }
+
+      document.addEventListener('visibilitychange', syncAnimationState);
+      if (typeof reducedMotionQuery.addEventListener === 'function') {
+        reducedMotionQuery.addEventListener('change', syncAnimationState);
+      }
+
+      // Prevent default navigation jump while keeping focus visible; no extra pages or panels added
+      const interactiveElements = hero.querySelectorAll('.nav-link, .brand, .hero-btn');
+      interactiveElements.forEach(function (el) {
+        el.addEventListener('click', function (event) {
+          if (el.tagName === 'A') {
+            event.preventDefault();
+          }
+          el.focus({ preventScroll: true });
+        });
+      });
+
+      syncAnimationState();
+    })();
+  </script>
+</body>
+</html>

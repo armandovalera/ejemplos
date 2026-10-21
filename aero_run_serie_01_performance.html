@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AERO/RUN — Serie 01 Performance</title>
+  <style>
+    :root {
+      --bg-deep: #07080b;
+      --bg-surface: rgba(12, 14, 19, 0.86);
+      --text-primary: #f5f7fa;
+      --text-secondary: #b4bcc8;
+      --accent-chartreuse: #d4ff00;
+      --border-subtle: rgba(245, 247, 250, 0.14);
+      --header-h: 68px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: 'Arial', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .section-title, .section-copy, .section-nav, .section-brand { font-family: 'Arial', sans-serif; }
+
+    /* Foco visible accesible */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent-chartreuse);
+      outline-offset: 3px;
+    }
+
+    /* CONTENEDOR HERO */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-deep);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* CABECERA DE 68 PX */
+    .hero-header {
+      position: relative;
+      z-index: 30;
+      height: var(--header-h);
+      width: 100%;
+      padding: 0 4vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      background: linear-gradient(180deg, rgba(7, 8, 11, 0.9) 0%, rgba(7, 8, 11, 0.35) 100%);
+    }
+
+    .section-brand {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      text-decoration: none;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .section-brand::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-chartreuse);
+    }
+
+    .section-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .section-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: color 0.2s ease;
+    }
+
+    .section-nav a:hover {
+      color: var(--text-primary);
+    }
+
+    .btn-size {
+      font-family: 'Arial', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      background: transparent;
+      border: 1px solid rgba(245, 247, 250, 0.32);
+      padding: 9px 16px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .btn-size:hover {
+      border-color: var(--accent-chartreuse);
+      color: var(--accent-chartreuse);
+      background-color: rgba(212, 255, 0, 0.06);
+    }
+
+    /* ESCENARIO CENTRAL DE MEDIOS: 38% izquierdo despejado, foco en el centro derecho */
+    .media-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .media-frame {
+      position: relative;
+      width: 62%;
+      height: 100%;
+      margin-left: 38%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* El video no se filtra, recolorea, recorta ni anima con CSS */
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      max-height: calc(100vh - var(--header-h));
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+    }
+
+    /* Despeje visual en el 38% izquierdo sin tocar el producto en el centro derecho */
+    .left-clear-zone {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 38%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(7, 8, 11, 0.95) 0%, rgba(7, 8, 11, 0.82) 80%, rgba(7, 8, 11, 0) 100%);
+    }
+
+    /* CAPA DE ELIPSES SVG Y HOTSPOTS SOBRE LA MEDIASUELA */
+    .technical-overlay {
+      position: absolute;
+      top: var(--header-h);
+      right: 0;
+      width: 62%;
+      height: calc(100% - var(--header-h));
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .midsole-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      display: block;
+    }
+
+    .orbit-path {
+      fill: none;
+      stroke-linecap: round;
+    }
+
+    .orbit-primary {
+      stroke: var(--accent-chartreuse);
+      stroke-width: 1.8;
+      stroke-dasharray: 0.38 0.16 0.24 0.22;
+      stroke-dashoffset: 0;
+      animation: orbit-flow-primary 9s linear infinite;
+    }
+
+    .orbit-secondary {
+      stroke: rgba(245, 247, 250, 0.44);
+      stroke-width: 1.2;
+      stroke-dasharray: 0.30 0.20 0.22 0.28;
+      stroke-dashoffset: 0;
+      animation: orbit-flow-secondary 12s linear infinite reverse;
+    }
+
+    .is-paused .orbit-primary,
+    .is-paused .orbit-secondary {
+      animation-play-state: paused !important;
+    }
+
+    @keyframes orbit-flow-primary {
+      0% {
+        stroke-dashoffset: 1;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes orbit-flow-secondary {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: 1;
+      }
+    }
+
+    .orbit-runner-glow {
+      fill: rgba(212, 255, 0, 0.28);
+    }
+
+    .orbit-runner-dot {
+      fill: var(--accent-chartreuse);
+      stroke: #07080b;
+      stroke-width: 1.5;
+    }
+
+    /* TRES HOTSPOTS DE ESCRITORIO: ESPUMA, PLACA, UPPER */
+    .hotspots-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hotspot-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      z-index: 25;
+    }
+
+    .hotspot-trigger {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(9, 11, 15, 0.88);
+      color: var(--text-primary);
+      border: 1px solid rgba(212, 255, 0, 0.68);
+      padding: 5px 10px 5px 7px;
+      font-family: 'Arial', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .hotspot-trigger:hover,
+    .hotspot-trigger[aria-expanded="true"] {
+      background: var(--accent-chartreuse);
+      color: #07080b;
+      border-color: var(--accent-chartreuse);
+    }
+
+    .hotspot-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--accent-chartreuse);
+      flex-shrink: 0;
+    }
+
+    .hotspot-trigger:hover .hotspot-dot,
+    .hotspot-trigger[aria-expanded="true"] .hotspot-dot {
+      background-color: #07080b;
+    }
+
+    .hotspot-card {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(4px);
+      width: 238px;
+      background: rgba(10, 12, 17, 0.96);
+      border: 1px solid rgba(212, 255, 0, 0.58);
+      padding: 12px 14px;
+      color: var(--text-primary);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+      pointer-events: none;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.58);
+    }
+
+    .hotspot-node:hover .hotspot-card,
+    .hotspot-node:focus-within .hotspot-card,
+    .hotspot-node.is-active .hotspot-card {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .hotspot-card-tag {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent-chartreuse);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .hotspot-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .hotspot-card-desc {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text-secondary);
+    }
+
+    /* CONTENIDO IZQUIERDO: a 4vw del lateral y entre 24% y 29% desde arriba (26vh) */
+    .hero-content-wrap {
+      position: relative;
+      z-index: 20;
+      width: 34%;
+      min-width: 300px;
+      margin-left: 4vw;
+      margin-top: max(20px, calc(26vh - var(--header-h)));
+      padding-right: 12px;
+    }
+
+    .series-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Arial', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-chartreuse);
+      margin-bottom: 14px;
+    }
+
+    .series-tag::before {
+      content: "";
+      width: 18px;
+      height: 2px;
+      background-color: var(--accent-chartreuse);
+      display: inline-block;
+    }
+
+    /* H1 sans condensada: line-height 0.87, letter-spacing 0 */
+    .section-title {
+      font-size: clamp(44px, 5.2vw, 78px);
+      font-weight: 700;
+      font-stretch: condensed;
+      line-height: 0.87;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 18px;
+      max-width: 9.5ch;
+    }
+
+    /* Párrafo: 13 px con interlineado 1.5, máximo 410 px */
+    .section-copy {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      max-width: 410px;
+      margin-bottom: 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .btn-primary {
+      font-family: 'Arial', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #07080b;
+      background-color: var(--accent-chartreuse);
+      border: 1px solid var(--accent-chartreuse);
+      padding: 13px 24px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #e2ff44;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    /* RAIL TÉCNICO */
+    .tech-rail {
+      position: relative;
+      z-index: 20;
+      margin: auto 4vw 28px 4vw;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 28px;
+      max-width: 520px;
+    }
+
+    .tech-rail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tech-rail-spec {
+      font-family: 'Arial', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      text-transform: uppercase;
+    }
+
+    .tech-rail-bar {
+      width: 24px;
+      height: 2px;
+      background-color: var(--accent-chartreuse);
+    }
+
+    /* MÓVIL: elimina hotspots laterales, conserva solo producto, titular y una elipse; reduce título y permite altura natural */
+    @media (max-width: 767px) {
+      .orbit-secondary,
+      .hotspots-layer {
+        display: none !important;
+      }
+    }
+
+    /* Layout móvil vertical sin cortes ni desbordamientos */
+    @media (max-width: 767px) and (min-height: 361px) {
+      .hero-section {
+        min-height: auto;
+        height: auto;
+        padding-bottom: 28px;
+      }
+
+      .hero-header {
+        height: 68px;
+        padding: 0 4vw;
+        gap: 10px;
+      }
+
+      .section-nav {
+        gap: 14px;
+      }
+
+      .section-nav a {
+        font-size: 12px;
+      }
+
+      .btn-size {
+        padding: 7px 10px;
+        font-size: 11px;
+      }
+
+      .left-clear-zone {
+        display: none;
+      }
+
+      .media-stage {
+        position: relative;
+        width: 100%;
+        height: 270px;
+        order: 2;
+        margin: 6px 0;
+      }
+
+      .media-frame {
+        width: 100%;
+        height: 100%;
+        margin-left: 0;
+      }
+
+      .hero-video {
+        width: 100%;
+        height: 100%;
+        max-height: 270px;
+        object-fit: contain;
+        object-position: center center;
+      }
+
+      .technical-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .hero-content-wrap {
+        order: 1;
+        width: 92vw;
+        min-width: 0;
+        margin: 22px 4vw 8px 4vw;
+        padding-right: 0;
+      }
+
+      .section-title {
+        font-size: clamp(32px, 9vw, 44px);
+        line-height: 0.87;
+        letter-spacing: 0;
+        max-width: 12ch;
+      }
+
+      .section-copy {
+        font-size: 13px;
+        line-height: 1.5;
+        max-width: 410px;
+      }
+
+      .tech-rail {
+        order: 3;
+        margin: 14px 4vw 0 4vw;
+        gap: 18px;
+      }
+    }
+
+    /* Viewport compacto horizontal (ej. 480x300): conserva silueta completa sin recortes y el 38% izquierdo despejado */
+    @media (max-height: 360px) {
+      .hero-section {
+        min-height: 300px;
+      }
+
+      .hero-header {
+        height: 44px;
+        padding: 0 4vw;
+      }
+
+      .section-brand {
+        font-size: 13px;
+      }
+
+      .section-nav {
+        gap: 12px;
+      }
+
+      .section-nav a {
+        font-size: 11px;
+      }
+
+      .btn-size {
+        padding: 4px 8px;
+        font-size: 10px;
+      }
+
+      .technical-overlay {
+        top: 44px;
+        height: calc(100% - 44px);
+      }
+
+      .hero-video {
+        max-height: calc(100vh - 44px);
+        object-fit: contain;
+      }
+
+      .hero-content-wrap {
+        width: 38%;
+        min-width: 170px;
+        margin-left: 4vw;
+        margin-top: 10px;
+      }
+
+      .series-tag {
+        font-size: 9px;
+        margin-bottom: 6px;
+      }
+
+      .section-title {
+        font-size: clamp(20px, 4.2vw, 28px);
+        line-height: 0.87;
+        letter-spacing: 0;
+        margin-bottom: 6px;
+      }
+
+      .section-copy {
+        font-size: 13px;
+        line-height: 1.5;
+        max-width: 410px;
+        margin-bottom: 8px;
+      }
+
+      .hero-actions {
+        margin-bottom: 8px;
+      }
+
+      .btn-primary {
+        padding: 6px 12px;
+        font-size: 10px;
+      }
+
+      .tech-rail {
+        margin: auto 4vw 8px 4vw;
+        padding-top: 6px;
+        gap: 12px;
+      }
+
+      .tech-rail-spec {
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 479px) and (min-height: 361px) {
+      .hero-header {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 68px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .orbit-primary,
+      .orbit-secondary {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero-section" id="aero-hero" aria-label="Campaña AERO/RUN Serie 01">
+    <!-- CABECERA (68px) -->
+    <header class="hero-header">
+      <a href="#aero-hero" class="section-brand">AERO/RUN</a>
+      <nav aria-label="Navegación principal">
+        <ul class="section-nav">
+          <li><a href="#aero-hero" data-nav-item="diseno">Diseño</a></li>
+          <li><a href="#aero-hero" data-nav-item="tecnologia">Tecnología</a></li>
+          <li><a href="#aero-hero" data-nav-item="pruebas">Pruebas</a></li>
+        </ul>
+      </nav>
+      <button type="button" class="btn-size" data-static-action="talla">Encontrar mi talla</button>
+    </header>
+
+    <!-- ZONA IZQUIERDA DESPEJADA (38%) -->
+    <div class="left-clear-zone" aria-hidden="true"></div>
+
+    <!-- ASSET CENTRAL DE VIDEO + SVG ELIPSES Y HOTSPOTS -->
+    <div class="media-stage">
+      <div class="media-frame">
+        <video
+          id="hero-video"
+          class="hero-video"
+          src="https://media.dinamosites.com/library/v1/video/aero-run-loop-e45a8619dfea.mp4"
+          poster="https://media.dinamosites.com/library/v1/backgrounds/aero-run-af77c3e0089a.png"
+          data-local-src="/media/aero-run-loop.mp4"
+          data-local-poster="/media/aero-run-product.png"
+          autoplay
+          muted
+          loop
+          playsinline
+        ></video>
+
+        <!-- CAPA TÉCNICA SVG Y HOTSPOTS -->
+        <div class="technical-overlay">
+          <svg
+            class="midsole-svg"
+            viewBox="0 0 800 560"
+            preserveAspectRatio="xMidYMid meet"
+            aria-hidden="true"
+          >
+            <defs>
+              <!-- Máscara que despeja el cuerpo de la zapatilla para que los trazos nunca tapen el producto -->
+              <mask id="midsole-clearance-mask">
+                <rect x="0" y="0" width="800" height="560" fill="white" />
+                <ellipse
+                  cx="415"
+                  cy="265"
+                  rx="192"
+                  ry="74"
+                  transform="rotate(-11 415 265)"
+                  fill="black"
+                />
+              </mask>
+            </defs>
+
+            <g mask="url(#midsole-clearance-mask)">
+              <!-- Elipse inclinada 1 alrededor de la mediasuela -->
+              <path
+                id="orbit-primary"
+                class="orbit-path orbit-primary"
+                pathLength="1"
+                d="M 115 350 A 310 92 -13 1 0 715 250 A 310 92 -13 1 0 115 350 Z"
+              />
+              <!-- Elipse inclinada 2 alrededor de la mediasuela -->
+              <path
+                id="orbit-secondary"
+                class="orbit-path orbit-secondary"
+                pathLength="1"
+                d="M 150 326 A 278 74 -7 1 1 680 286 A 278 74 -7 1 1 150 326 Z"
+              />
+              <!-- Punto chartreuse que recorre la elipse con getPointAtLength -->
+              <circle id="orbit-runner-glow" class="orbit-runner-glow" cx="115" cy="350" r="10" />
+              <circle id="orbit-runner" class="orbit-runner-dot" cx="115" cy="350" r="4.5" />
+            </g>
+          </svg>
+
+          <!-- TRES HOTSPOTS INTERACTIVOS: ESPUMA, PLACA, UPPER -->
+          <div class="hotspots-layer" role="group" aria-label="Detalles técnicos del calzado">
+            <!-- Hotspot 1: Upper -->
+            <div class="hotspot-node" style="left: 47%; top: 34%;" data-hotspot="upper">
+              <button
+                type="button"
+                class="hotspot-trigger"
+                aria-expanded="false"
+                aria-controls="detail-upper"
+              >
+                <span class="hotspot-dot" aria-hidden="true"></span>
+                <span>UPPER</span>
+              </button>
+              <div id="detail-upper" class="hotspot-card" role="region" aria-label="Detalle Upper">
+                <span class="hotspot-card-tag">UPPER / SUJECIÓN</span>
+                <div class="hotspot-card-title">Malla Monofilamento AeroWeave</div>
+                <p class="hotspot-card-desc">
+                  Upper translúcido de tensión zonal que bloquea el mediopié a alta velocidad con ventilación continua.
+                </p>
+              </div>
+            </div>
+
+            <!-- Hotspot 2: Placa -->
+            <div class="hotspot-node" style="left: 58%; top: 58%;" data-hotspot="placa">
+              <button
+                type="button"
+                class="hotspot-trigger"
+                aria-expanded="false"
+                aria-controls="detail-placa"
+              >
+                <span class="hotspot-dot" aria-hidden="true"></span>
+                <span>PLACA</span>
+              </button>
+              <div id="detail-placa" class="hotspot-card" role="region" aria-label="Detalle Placa">
+                <span class="hotspot-card-tag">PLACA / PROPULSIÓN</span>
+                <div class="hotspot-card-title">Placa de Carbono Calibrada</div>
+                <p class="hotspot-card-desc">
+                  Geometría en cuchara con drop de 7 mm diseñada para estabilizar la transición y acelerar el despegue.
+                </p>
+              </div>
+            </div>
+
+            <!-- Hotspot 3: Espuma -->
+            <div class="hotspot-node" style="left: 33%; top: 66%;" data-hotspot="espuma">
+              <button
+                type="button"
+                class="hotspot-trigger"
+                aria-expanded="false"
+                aria-controls="detail-espuma"
+              >
+                <span class="hotspot-dot" aria-hidden="true"></span>
+                <span>ESPUMA</span>
+              </button>
+              <div id="detail-espuma" class="hotspot-card" role="region" aria-label="Detalle Espuma">
+                <span class="hotspot-card-tag">ESPUMA / MEDIASUELA</span>
+                <div class="hotspot-card-title">Espuma de Retorno Visible 68%</div>
+                <p class="hotspot-card-desc">
+                  Compuesto supercrítico de nitrógeno que absorbe el impacto y devuelve el 68% de la energía en cada apoyo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOQUE DE CONTENIDO IZQUIERDO (4vw del lateral y entre 24% y 29% desde arriba) -->
+    <div class="hero-content-wrap">
+      <div class="series-tag">SERIE 01 / PERFORMANCE</div>
+      <h1 class="section-title">LA VELOCIDAD CAMBIA DE FORMA.</h1>
+      <p class="section-copy">
+        Una silueta de 214 gramos con espuma de retorno visible y una placa de carbono calibrada para convertir cada apoyo en avance.
+      </p>
+      <div class="hero-actions">
+        <button type="button" class="btn-primary" data-static-action="conocer">
+          <span>Conocer A/R 01</span>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- RAIL TÉCNICO -->
+    <footer class="tech-rail" aria-label="Especificaciones técnicas">
+      <div class="tech-rail-item">
+        <span class="tech-rail-spec">PESO 214 G</span>
+        <span class="tech-rail-bar" aria-hidden="true"></span>
+      </div>
+      <div class="tech-rail-item">
+        <span class="tech-rail-spec">GEOMETRÍA DROP 7 MM</span>
+        <span class="tech-rail-bar" aria-hidden="true"></span>
+      </div>
+      <div class="tech-rail-item">
+        <span class="tech-rail-spec">RETORNO 68%</span>
+        <span class="tech-rail-bar" aria-hidden="true"></span>
+      </div>
+    </footer>
+  </section>
+
+  <script>
+    (function () {
+      const heroSection = document.getElementById('aero-hero');
+      const video = document.getElementById('hero-video');
+      const orbitPath = document.getElementById('orbit-primary');
+      const runnerDot = document.getElementById('orbit-runner');
+      const runnerGlow = document.getElementById('orbit-runner-glow');
+      const hotspotNodes = document.querySelectorAll('.hotspot-node');
+      const staticControls = document.querySelectorAll('a, button');
+
+      // Usa la URL del VIDEO como src; conmuta a la ruta local (/media/aero-run-loop.mp4) si está alojada en el proyecto local
+      let triedLocalFallback = false;
+      if (video) {
+        video.addEventListener('error', function () {
+          if (!triedLocalFallback) {
+            triedLocalFallback = true;
+            const localPoster = video.getAttribute('data-local-poster');
+            const localSrc = video.getAttribute('data-local-src');
+            if (localPoster) video.setAttribute('poster', localPoster);
+            if (localSrc) {
+              video.setAttribute('src', localSrc);
+              video.load();
+            }
+          }
+        });
+      }
+
+      // Mantiene enlaces y botones sin destino especificado sin abrir paneles ni recargar la página
+      staticControls.forEach(function (ctrl) {
+        ctrl.addEventListener('click', function (ev) {
+          if (ctrl.tagName === 'A') {
+            ev.preventDefault();
+          }
+        });
+      });
+
+      // Hotspots: muestra detalles HTML de espuma, placa y upper al pasar el puntero o enfocar
+      function setActiveHotspot(activeNode) {
+        hotspotNodes.forEach(function (node) {
+          const btn = node.querySelector('.hotspot-trigger');
+          const isMatch = node === activeNode;
+          node.classList.toggle('is-active', isMatch);
+          if (btn) {
+            btn.setAttribute('aria-expanded', isMatch ? 'true' : 'false');
+          }
+        });
+      }
+
+      hotspotNodes.forEach(function (node) {
+        const btn = node.querySelector('.hotspot-trigger');
+        node.addEventListener('pointerenter', function () {
+          setActiveHotspot(node);
+        });
+        node.addEventListener('pointerleave', function () {
+          setActiveHotspot(null);
+        });
+        node.addEventListener('focusin', function () {
+          setActiveHotspot(node);
+        });
+        node.addEventListener('focusout', function (e) {
+          if (!node.contains(e.relatedTarget)) {
+            setActiveHotspot(null);
+          }
+        });
+        if (btn) {
+          btn.addEventListener('click', function () {
+            const currentlyActive = node.classList.contains('is-active');
+            setActiveHotspot(currentlyActive ? null : node);
+          });
+        }
+      });
+
+      // Punto chartreuse que recorre la elipse usando getPointAtLength
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let isInViewport = true;
+      let rafId = null;
+      let lastTimestamp = null;
+      let progress = 0.08;
+      const ORBIT_DURATION_MS = 7500;
+
+      function updateRunnerPosition(normProgress) {
+        if (!orbitPath || !runnerDot || !runnerGlow) return;
+        try {
+          const totalLength = orbitPath.getTotalLength();
+          if (totalLength > 0) {
+            const pt = orbitPath.getPointAtLength(normProgress * totalLength);
+            runnerDot.setAttribute('cx', pt.x.toFixed(2));
+            runnerDot.setAttribute('cy', pt.y.toFixed(2));
+            runnerGlow.setAttribute('cx', pt.x.toFixed(2));
+            runnerGlow.setAttribute('cy', pt.y.toFixed(2));
+          }
+        } catch (err) {
+          // Ignorar si el SVG aún no está renderizado
+        }
+      }
+
+      function shouldAnimate() {
+        return isInViewport && !reducedMotionQuery.matches && !document.hidden;
+      }
+
+      function tick(timestamp) {
+        if (!shouldAnimate()) {
+          rafId = null;
+          lastTimestamp = null;
+          return;
+        }
+        if (lastTimestamp === null) {
+          lastTimestamp = timestamp;
+        }
+        const delta = timestamp - lastTimestamp;
+        lastTimestamp = timestamp;
+        progress = (progress + delta / ORBIT_DURATION_MS) % 1;
+        updateRunnerPosition(progress);
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function syncPlaybackState() {
+        const active = shouldAnimate();
+        if (heroSection) {
+          heroSection.classList.toggle('is-paused', !active);
+        }
+        if (video) {
+          if (active) {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(function () {});
+            }
+          } else {
+            video.pause();
+          }
+        }
+        if (active) {
+          if (rafId === null) {
+            lastTimestamp = null;
+            rafId = requestAnimationFrame(tick);
+          }
+        } else {
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+          lastTimestamp = null;
+          updateRunnerPosition(progress);
+        }
+      }
+
+      // Pausa fuera de pantalla
+      if ('IntersectionObserver' in window && heroSection) {
+        const observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              isInViewport = entry.isIntersecting;
+            });
+            syncPlaybackState();
+          },
+          { threshold: 0.05 }
+        );
+        observer.observe(heroSection);
+      }
+
+      // Pausa con movimiento reducido o cambio de pestaña
+      if (typeof reducedMotionQuery.addEventListener === 'function') {
+        reducedMotionQuery.addEventListener('change', syncPlaybackState);
+      }
+      document.addEventListener('visibilitychange', syncPlaybackState);
+
+      updateRunnerPosition(progress);
+      syncPlaybackState();
+    })();
+  </script>
+</body>
+</html>

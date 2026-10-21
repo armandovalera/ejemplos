@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UMBRAL — Cruza el umbral. Trabaja mejor.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600&display=swap">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: #08090c;
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    .section-title, .section-copy, .section-nav, .section-brand {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Hero Container */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-top: 20px;
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-bottom: 32px;
+      overflow: hidden;
+      isolation: isolate;
+      background: radial-gradient(circle at 50% 35%, #1c2230 0%, #08090c 100%);
+    }
+
+    @media (min-width: 768px) {
+      .hero-section {
+        padding-top: 28px;
+        padding-left: 24px;
+        padding-right: 24px;
+        padding-bottom: 48px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-section {
+        padding-top: 32px;
+        padding-left: 48px;
+        padding-right: 48px;
+        padding-bottom: 64px;
+      }
+    }
+
+    /* Background Video */
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+      pointer-events: none;
+    }
+
+    /* Subtle contrast scrim without blurring the top */
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.42) 0%,
+        rgba(0, 0, 0, 0.08) 35%,
+        rgba(0, 0, 0, 0.28) 65%,
+        rgba(0, 0, 0, 0.68) 100%
+      );
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* Bottom Glass Layer (exact specification) */
+    .bottom-glass {
+      inset: 0;
+      position: absolute;
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+      -webkit-mask-image: linear-gradient(to top, black, transparent 45%);
+      mask-image: linear-gradient(to top, black, transparent 45%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Top Navigation */
+    .hero-header {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px 16px;
+    }
+
+    .section-brand {
+      order: 1;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .hero-nav {
+      order: 3;
+      width: 100%;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    @media (min-width: 768px) {
+      .hero-nav {
+        order: 2;
+        width: auto;
+        padding-top: 0;
+        border-top: none;
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 14px;
+      list-style: none;
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        gap: 8px 22px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .nav-links {
+        gap: 8px 32px;
+      }
+    }
+
+    .section-nav {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.86);
+      text-decoration: none;
+      transition: color 0.2s ease, opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 768px) {
+      .section-nav {
+        font-size: 14px;
+      }
+    }
+
+    .section-nav:hover {
+      color: #ffffff;
+    }
+
+    .nav-actions {
+      order: 2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 768px) {
+      .nav-actions {
+        order: 3;
+        gap: 12px;
+      }
+    }
+
+    .glass-icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.12);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    @media (min-width: 768px) {
+      .glass-icon-btn {
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    .glass-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.38);
+    }
+
+    /* Bottom Anchored Content */
+    .hero-bottom {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      margin-top: auto;
+      padding-top: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      gap: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .hero-bottom {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 32px;
+      }
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 760px;
+      width: 100%;
+    }
+
+    .hero-meta {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .hero-meta {
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
+    }
+
+    /* Title: weight 400, line-height 1, letter-spacing -0.04em, 30 -> 48 -> 60 -> 72px */
+    .section-title {
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-size: 30px;
+      color: #ffffff;
+      margin-bottom: 14px;
+      overflow-wrap: break-word;
+    }
+
+    @media (min-width: 640px) {
+      .section-title {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .section-title {
+        font-size: 60px;
+        margin-bottom: 18px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .section-title {
+        font-size: 72px;
+        margin-bottom: 20px;
+      }
+    }
+
+    .hero-synopsis {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.68);
+      max-width: 540px;
+      margin-bottom: 22px;
+    }
+
+    @media (min-width: 768px) {
+      .hero-synopsis {
+        font-size: 16px;
+        margin-bottom: 28px;
+      }
+    }
+
+    .play-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      background-color: #ffffff;
+      color: #08090c;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .play-btn:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    }
+
+    /* Slider Arrow Controls (Stacked on mobile, Right-anchored on tablet/desktop) */
+    .hero-arrows {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .arrow-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    @media (min-width: 768px) {
+      .arrow-btn {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    .arrow-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.42);
+    }
+
+    /* Visible Keyboard Focus */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 3px;
+    }
+
+    /* Entrance Animation: 1s duration, smooth upward rise, 100ms stagger */
+    @keyframes heroRise {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-rise {
+      opacity: 0;
+      animation-name: heroRise;
+      animation-duration: 1s;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-fill-mode: both;
+      will-change: transform, opacity;
+    }
+
+    .delay-0 { animation-delay: 0ms; }
+    .delay-100 { animation-delay: 100ms; }
+    .delay-200 { animation-delay: 200ms; }
+    .delay-300 { animation-delay: 300ms; }
+    .delay-400 { animation-delay: 400ms; }
+
+    /* Pause animations when offscreen */
+    .is-offscreen .animate-rise {
+      animation-play-state: paused !important;
+    }
+
+    /* Reduced motion accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .animate-rise {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .section-nav,
+      .glass-icon-btn,
+      .play-btn,
+      .arrow-btn {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero-section" id="umbral-hero" aria-label="Destacado principal">
+    <!-- Background Video: Uses remote URL until local file (/media/umbral-background.mp4) is hosted -->
+    <video
+      id="hero-video"
+      class="hero-video"
+      src="https://media.dinamosites.com/library/v1/sections/umbral-background-ec1b270f46f5.mp4"
+      data-local-src="/media/umbral-background.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-hidden="true"
+    ></video>
+
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="bottom-glass" aria-hidden="true"></div>
+
+    <!-- Navigation -->
+    <header class="hero-header">
+      <a href="#umbral-hero" class="section-brand">UMBRAL</a>
+
+      <nav class="hero-nav" aria-label="Navegación principal">
+        <ul class="nav-links">
+          <li><a href="#umbral-hero" class="section-nav">Películas</a></li>
+          <li><a href="#umbral-hero" class="section-nav">Series</a></li>
+          <li><a href="#umbral-hero" class="section-nav">Selección del editor</a></li>
+          <li><a href="#umbral-hero" class="section-nav">Entrevistas</a></li>
+          <li><a href="#umbral-hero" class="section-nav">Reseñas</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="glass-icon-btn" aria-label="Buscar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="20" y1="20" x2="16.35" y2="16.35"></line>
+          </svg>
+        </button>
+        <button type="button" class="glass-icon-btn" aria-label="Perfil">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Bottom Content -->
+    <div class="hero-bottom">
+      <div class="hero-content">
+        <p class="section-copy hero-meta animate-rise delay-0">
+          8, 7/10 IMDB &middot; 132 min &middot; Abril, 2025
+        </p>
+
+        <h1 class="section-title animate-rise delay-100">
+          Cruza el umbral. Trabaja mejor.
+        </h1>
+
+        <p class="section-copy hero-synopsis animate-rise delay-200">
+          Una exploración visual sobre la calma productiva, el diseño del espacio mental y las decisiones cotidianas que redefinen nuestra forma de crear.
+        </p>
+
+        <div class="animate-rise delay-300">
+          <button type="button" class="play-btn section-copy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <polygon points="6 3 20 12 6 21 6 3"></polygon>
+            </svg>
+            <span>Reproducir</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-arrows animate-rise delay-400" role="group" aria-label="Controles de diapositiva">
+        <button type="button" class="arrow-btn" aria-label="Anterior">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button type="button" class="arrow-btn" aria-label="Siguiente">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const heroSection = document.getElementById('umbral-hero');
+      const heroVideo = document.getElementById('hero-video');
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let isIntersecting = true;
+
+      function syncPlaybackState() {
+        if (!heroSection || !heroVideo) return;
+        const shouldPause = reducedMotionQuery.matches || !isIntersecting || document.hidden;
+
+        if (shouldPause) {
+          heroSection.classList.add('is-offscreen');
+          if (!heroVideo.paused) {
+            heroVideo.pause();
+          }
+        } else {
+          heroSection.classList.remove('is-offscreen');
+          const playPromise = heroVideo.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(function () {});
+          }
+        }
+      }
+
+      if ('IntersectionObserver' in window && heroSection) {
+        const observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              isIntersecting = entry.isIntersecting;
+              syncPlaybackState();
+            });
+          },
+          { threshold: 0.05 }
+        );
+        observer.observe(heroSection);
+      }
+
+      if (typeof reducedMotionQuery.addEventListener === 'function') {
+        reducedMotionQuery.addEventListener('change', syncPlaybackState);
+      } else if (typeof reducedMotionQuery.addListener === 'function') {
+        reducedMotionQuery.addListener(syncPlaybackState);
+      }
+
+      document.addEventListener('visibilitychange', syncPlaybackState);
+
+      // Prevent unintended page jumps on sample controls while preserving keyboard focus
+      document.querySelectorAll('a, button').forEach(function (control) {
+        control.addEventListener('click', function (event) {
+          if (control.tagName === 'A') {
+            event.preventDefault();
+          }
+        });
+      });
+
+      syncPlaybackState();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Portal principal de navegación para acceder a las 10 experiencias web interactivas y secciones hero desarrolladas en HTML y CSS."
+  />
+  <title>Portal de Experiencias Web — Catálogo de 10 Páginas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Enlace de accesibilidad para saltar directamente al catálogo con teclado -->
+  <a href="#catalogo-paginas" class="skip-link">Saltar al catálogo de páginas</a>
+
+  <!-- Cabecera principal del sitio -->
+  <header class="site-header">
+    <div class="header-top">
+      <div class="portal-badge">
+        <span class="portal-badge__dot" aria-hidden="true"></span>
+        <span>Portal de Navegación Frontend</span>
+      </div>
+      <p class="portal-count" aria-label="Total de páginas disponibles">10 experiencias interactivas disponibles</p>
+    </div>
+
+    <div class="header-hero">
+      <h1 class="site-title">Colección de Experiencias y Escenarios Hero</h1>
+      <p class="site-description">
+        Explora las 10 páginas web del proyecto desde un único punto de entrada. Cada tarjeta resume el propósito, el titular original y las características técnicas de su página correspondiente para acceder directamente con un clic.
+      </p>
+    </div>
+  </header>
+
+  <!-- Contenido principal: Cuadrícula adaptable con las 10 tarjetas de navegación -->
+  <main id="catalogo-paginas" class="site-main" aria-label="Catálogo de las 10 páginas web">
+    <ul class="cards-grid">
+
+      <!-- 01. TEMPO -->
+      <li class="card-item">
+        <a
+          href="tempo_tiempo_bien_hecho.html"
+          class="nav-card nav-card--tempo"
+          aria-label="Abrir página 1: Tempo — Relojería Mecánica de Precisión (TIEMPO. BIEN HECHO.)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de reloj mecánico / calibre -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"></circle>
+                    <polyline points="12 8 12 12 14.5 13.5"></polyline>
+                    <path d="M9.5 2h5"></path>
+                    <path d="M9.5 22h5"></path>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 01</span>
+                  <span class="card-visual__brand">TEMPO</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">Hero Cinematográfico</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">Tempo — Relojería Mecánica de Precisión</h2>
+              <p class="card-headline-quote">«TIEMPO. BIEN HECHO. Cada detalle tiene su momento.»</p>
+              <p class="card-description">
+                Presentación centrada para un reloj metálico con esfera verde esmeralda sobre una cavidad mineral de jade. Incluye diálogo interactivo de especificaciones (Calibre Manufactura T-01 y Materia) y modo escena a pantalla completa.
+              </p>
+              <ul class="card-features" aria-label="Características de Tempo">
+                <li class="card-features__tag">Video en bucle</li>
+                <li class="card-features__tag">Ficha Calibre / Materia</li>
+                <li class="card-features__tag">Modo escena inmersivo</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="tempo_tiempo_bien_hecho.html">tempo_tiempo_bien_hecho.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 02. UMBRAL -->
+      <li class="card-item">
+        <a
+          href="umbral_cruza_el_umbral_trabaja_mejor.html"
+          class="nav-card nav-card--umbral"
+          aria-label="Abrir página 2: UMBRAL — Documental sobre Calma Productiva (Cruza el umbral. Trabaja mejor.)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de reproducción / cine documental -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+                    <polygon points="10 9 15 12 10 15 10 9"></polygon>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 02</span>
+                  <span class="card-visual__brand">UMBRAL</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">Streaming / Editorial</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">UMBRAL — Calma Productiva y Espacio Mental</h2>
+              <p class="card-headline-quote">«Cruza el umbral. Trabaja mejor.»</p>
+              <p class="card-description">
+                Interfaz de catálogo audiovisual (8, 7/10 IMDB · 132 min · Abril, 2025) con navegación por categorías (Películas, Series, Selección del editor, Entrevistas y Reseñas), capa inferior de vidrio esmerilado y controles de diapositiva.
+              </p>
+              <ul class="card-features" aria-label="Características de UMBRAL">
+                <li class="card-features__tag">Glassmorphism inferior</li>
+                <li class="card-features__tag">Animación escalonada</li>
+                <li class="card-features__tag">Controles de carrusel</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="umbral_cruza_el_umbral_trabaja_mejor.html">umbral_cruza_el_umbral_trabaja_mejor.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 03. TRAV -->
+      <li class="card-item">
+        <a
+          href="trav_tu_pr_xima_historia_empieza_lejos.html"
+          class="nav-card nav-card--trav"
+          aria-label="Abrir página 3: Trav — Exploración y Organización de Viajes (Tu próxima historia empieza lejos)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de brújula de viajes -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <polygon points="15.5 8.5 13.5 13.5 8.5 15.5 10.5 10.5 15.5 8.5"></polygon>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 03</span>
+                  <span class="card-visual__brand">Trav</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">Viajes y Destinos</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">Trav — Exploración y Organización de Viajes</h2>
+              <p class="card-headline-quote">«Tu próxima historia empieza lejos»</p>
+              <p class="card-description">
+                Portada inmersiva enfocada en descubrir lugares fuera de las guías convencionales. Incorpora video de fondo, navegación adaptable con menú móvil desplegable accesible y llamada a la acción de descarga.
+              </p>
+              <ul class="card-features" aria-label="Características de Trav">
+                <li class="card-features__tag">Menú móvil accesible</li>
+                <li class="card-features__tag">Video de fondo</li>
+                <li class="card-features__tag">Estado aria-live</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="trav_tu_pr_xima_historia_empieza_lejos.html">trav_tu_pr_xima_historia_empieza_lejos.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 04. RATW -->
+      <li class="card-item">
+        <a
+          href="ratw_dale_espacio_a_lo_que_importa.html"
+          class="nav-card nav-card--ratw"
+          aria-label="Abrir página 4: Ratw — Organización y Atención Diaria (Dale espacio a lo que importa)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de diseño de bloques y tareas en orden -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+                    <path d="M8 10h8"></path>
+                    <path d="M8 14h5"></path>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 04</span>
+                  <span class="card-visual__brand">Ratw</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">Productividad</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">Ratw — Organización y Atención Diaria</h2>
+              <p class="card-headline-quote">«Dale espacio a lo que importa. Tus tareas en orden.»</p>
+              <p class="card-description">
+                Sección hero enmarcada en un contenedor con esquinas redondeadas de 32 px. Combina tipografía sans-serif con acento editorial en cursiva serif, barra de navegación en píldora translúcida y acceso a plantillas.
+              </p>
+              <ul class="card-features" aria-label="Características de Ratw">
+                <li class="card-features__tag">Marco redondeado 32px</li>
+                <li class="card-features__tag">Navegación en píldora</li>
+                <li class="card-features__tag">Contraste serif / sans</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="ratw_dale_espacio_a_lo_que_importa.html">ratw_dale_espacio_a_lo_que_importa.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 05. AERO/RUN -->
+      <li class="card-item">
+        <a
+          href="aero_run_serie_01_performance.html"
+          class="nav-card nav-card--aerorun"
+          aria-label="Abrir página 5: AERO/RUN — Calzado Técnico Serie 01 Performance (LA VELOCIDAD CAMBIA DE FORMA.)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de órbita técnica y rendimiento -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(-18 12 12)"></ellipse>
+                    <circle cx="17.5" cy="10" r="1.8" fill="currentColor"></circle>
+                    <path d="M5 17h6"></path>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 05</span>
+                  <span class="card-visual__brand">AERO/RUN</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">Deporte / Producto</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">AERO/RUN — Calzado Técnico Serie 01</h2>
+              <p class="card-headline-quote">«LA VELOCIDAD CAMBIA DE FORMA.»</p>
+              <p class="card-description">
+                Presentación técnica de la silueta A/R 01 (214 g, drop 7 mm y retorno de energía del 68%). Incorpora elipses orbitales en SVG animadas alrededor de la mediasuela y tres hotspots interactivos (Upper, Placa y Espuma).
+              </p>
+              <ul class="card-features" aria-label="Características de AERO/RUN">
+                <li class="card-features__tag">3 Hotspots técnicos</li>
+                <li class="card-features__tag">Órbita SVG animada</li>
+                <li class="card-features__tag">Rail de especificaciones</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="aero_run_serie_01_performance.html">aero_run_serie_01_performance.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 06. PULSO//GLITCH -->
+      <li class="card-item">
+        <a
+          href="pulso_glitch_retro_futurismo_terminal.html"
+          class="nav-card nav-card--pulsoglitch"
+          aria-label="Abrir página 6: pulso//glitch — Terminal Retro-Futurista (pulso glitch)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de consola terminal retro-futurista -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                    <polyline points="7 9 10 12 7 15"></polyline>
+                    <line x1="12" y1="15" x2="17" y2="15"></line>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 06</span>
+                  <span class="card-visual__brand">pulso//glitch</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">Retro-Futurismo</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">pulso//glitch — Terminal Retro-Futurista</h2>
+              <p class="card-headline-quote">«&gt; iniciando pulso.sys · sincronizando red 1987… ok»</p>
+              <p class="card-description">
+                Estética de monitor de fósforo verde (#39ff14) con piso de cuadrícula en perspectiva 3D, líneas de escaneo CRT, titular con efecto glitch recortado y terminal del sistema de 4 líneas con cursor parpadeante.
+              </p>
+              <ul class="card-features" aria-label="Características de pulso//glitch">
+                <li class="card-features__tag">Cuadrícula 3D en perspectiva</li>
+                <li class="card-features__tag">Efecto glitch CSS</li>
+                <li class="card-features__tag">Consola de 4 líneas</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="pulso_glitch_retro_futurismo_terminal.html">pulso_glitch_retro_futurismo_terminal.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 07. NEXO -->
+      <li class="card-item">
+        <a
+          href="nexo_inteligencia_con_presencia.html"
+          class="nav-card nav-card--nexo"
+          aria-label="Abrir página 7: Nexo — Robótica e Inteligencia con Presencia (INTELIGENCIA. CON PRESENCIA.)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de presencia robótica minimalista -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="6" width="16" height="12" rx="6"></rect>
+                    <circle cx="9.5" cy="12" r="1.2" fill="currentColor"></circle>
+                    <circle cx="14.5" cy="12" r="1.2" fill="currentColor"></circle>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 07</span>
+                  <span class="card-visual__brand">Nexo</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">IA y Robótica</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">Nexo — Robótica e Inteligencia con Presencia</h2>
+              <p class="card-headline-quote">«INTELIGENCIA. CON PRESENCIA. Una nueva manera de encontrarnos.»</p>
+              <p class="card-description">
+                Composición luminosa sobre fondo crema (#fbf8ef) donde el protagonista robótico de cerámica y metal se funde sin bordes visibles mediante máscaras radiales. Cuenta con modo de visualización de escena despejada.
+              </p>
+              <ul class="card-features" aria-label="Características de Nexo">
+                <li class="card-features__tag">Fusión radial de bordes</li>
+                <li class="card-features__tag">Modo escena interactivo</li>
+                <li class="card-features__tag">Paleta crema y carbón</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="nexo_inteligencia_con_presencia.html">nexo_inteligencia_con_presencia.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 08. TILO -->
+      <li class="card-item">
+        <a
+          href="tilo_tecnolog_a_con_car_cter.html"
+          class="nav-card nav-card--tilo"
+          aria-label="Abrir página 8: Tilo — Robot Interactivo 3D en Tiempo Real (Tecnología con carácter.)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de personaje 3D / geometría espacial -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v3"></path>
+                    <circle cx="12" cy="2.5" r="1"></circle>
+                    <rect x="5" y="6" width="14" height="11" rx="3.5"></rect>
+                    <line x1="9.5" y1="11" x2="9.5" y2="12.5"></line>
+                    <line x1="14.5" y1="11" x2="14.5" y2="12.5"></line>
+                    <path d="M8 20h8"></path>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 08</span>
+                  <span class="card-visual__brand">✳ tilo</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">WebGL / Three.js</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">Tilo — Robot Interactivo 3D con Carácter</h2>
+              <p class="card-headline-quote">«Tecnología con carácter. Una nueva forma de conectar.»</p>
+              <p class="card-description">
+                Escena 3D generada proceduralmente con Three.js e iluminación de estudio. El robot en cerámica marfil y cobre dirige la mirada hacia el cursor o las flechas del teclado y saluda al pulsar «Dile hola».
+              </p>
+              <ul class="card-features" aria-label="Características de Tilo">
+                <li class="card-features__tag">Personaje 3D procedural</li>
+                <li class="card-features__tag">Seguimiento de puntero y teclado</li>
+                <li class="card-features__tag">Saludo animado</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="tilo_tecnolog_a_con_car_cter.html">tilo_tecnolog_a_con_car_cter.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 09. ENJAMBRE.AI -->
+      <li class="card-item">
+        <a
+          href="enjambre_ai_animaci_n_de_part_culas_enjambre_html_y_css_puros.html"
+          class="nav-card nav-card--enjambre"
+          aria-label="Abrir página 9: enjambre.ai — Animación de Partículas en HTML y CSS Puros (Enjambre)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de nube/enjambre de partículas -->
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="6" cy="12" r="1.6"></circle>
+                    <circle cx="9.5" cy="8.5" r="1.4"></circle>
+                    <circle cx="10" cy="14.5" r="1.8"></circle>
+                    <circle cx="13.5" cy="11" r="2"></circle>
+                    <circle cx="14.5" cy="6.5" r="1.2"></circle>
+                    <circle cx="17.5" cy="14" r="1.6"></circle>
+                    <circle cx="18.5" cy="9.5" r="1.3"></circle>
+                    <circle cx="13" cy="17" r="1.2"></circle>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 09</span>
+                  <span class="card-visual__brand">enjambre.ai</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">HTML + CSS Puros</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">enjambre.ai — Sistema de Partículas en CSS Puro</h2>
+              <p class="card-headline-quote">«Enjambre · INTELIGENCIA COLECTIVA (5952 partículas)»</p>
+              <p class="card-description">
+                 Animación del titular «Enjambre» construida con 5952 partículas muestreadas en 16 nubes box-shadow por letra sin utilizar JavaScript. Incluye dispersión por letra al pasar el cursor y 4 modos físicos interactivos.
+              </p>
+              <ul class="card-features" aria-label="Características de enjambre.ai">
+                <li class="card-features__tag">5952 partículas CSS</li>
+                <li class="card-features__tag">4 modos (:checked)</li>
+                <li class="card-features__tag">Modales (:target) sin JS</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="enjambre_ai_animaci_n_de_part_culas_enjambre_html_y_css_puros.html">enjambre_ai_animaci_n_de_part_culas_enjambre_html_y_css_puros.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+      <!-- 10. CORSA -->
+      <li class="card-item">
+        <a
+          href="corsa_elige_el_camino.html"
+          class="nav-card nav-card--corsa"
+          aria-label="Abrir página 10: Corsa — Recorrido Cinematográfico Automotriz (ELIGE EL CAMINO.)"
+        >
+          <div>
+            <div class="card-visual">
+              <div class="card-visual__identity">
+                <span class="card-visual__icon" aria-hidden="true">
+                  <!-- Icono de horizonte y carretera -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19L9 7h6l5 12"></path>
+                    <line x1="12" y1="7" x2="12" y2="10"></line>
+                    <line x1="12" y1="14" x2="12" y2="18"></line>
+                  </svg>
+                </span>
+                <div class="card-visual__meta">
+                  <span class="card-visual__number">Página 10</span>
+                  <span class="card-visual__brand">Corsa</span>
+                </div>
+              </div>
+              <span class="card-visual__badge">Automotriz</span>
+            </div>
+
+            <div class="card-body">
+              <h2 class="card-title">Corsa — Recorrido Cinematográfico Automotriz</h2>
+              <p class="card-headline-quote">«ELIGE EL CAMINO. La carretera también es el destino.»</p>
+              <p class="card-description">
+                Composición de gran impacto tipográfico con un deportivo rojo en una carretera costera al atardecer. Combina fotografía de carga prioritaria con video en bucle y modo inmersivo al activar «Empezar el recorrido».
+              </p>
+              <ul class="card-features" aria-label="Características de Corsa">
+                <li class="card-features__tag">Tipografía display Anton</li>
+                <li class="card-features__tag">Transición foto a video</li>
+                <li class="card-features__tag">Vista inmersiva despejada</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span class="card-filename" title="corsa_elige_el_camino.html">corsa_elige_el_camino.html</span>
+            <span class="card-cta">
+              <span>Abrir página</span>
+              <span class="card-cta__arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </li>
+
+    </ul>
+  </main>
+
+  <!-- Pie de página del portal -->
+  <footer class="site-footer">
+    <p>Portal de entrada unificado para las 10 experiencias web originales.</p>
+    <p class="footer-tech">HTML5 Semántico · CSS3 Grid &amp; Flexbox · Accesibilidad WCAG AA</p>
+  </footer>
+</body>
+</html>

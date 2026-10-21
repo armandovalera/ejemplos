@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexo — Inteligencia. Con presencia.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-cream: #fbf8ef;
+      --ink-dark: #151310;
+      --ink-body: #2b2722;
+      --ink-muted: #575046;
+      --btn-dark-bg: #151310;
+      --btn-dark-hover: #292520;
+      --btn-dark-text: #fbf8ef;
+      --btn-soft-bg: rgba(21, 19, 16, 0.065);
+      --btn-soft-hover: rgba(21, 19, 16, 0.12);
+      --focus-ring: #151310;
+      --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-cream);
+      color: var(--ink-dark);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Visible keyboard focus across all interactive elements */
+    :focus-visible {
+      outline: 2.5px solid var(--focus-ring);
+      outline-offset: 4px;
+    }
+
+    /* Single Hero Section Container */
+    .nexo-hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
+      background-color: var(--bg-cream);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: clamp(18px, 2.5vw, 34px) clamp(20px, 4vw, 56px) clamp(28px, 3.6vw, 48px);
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    /* Simple Header: Brand + clean navigation, no divider lines or eyebrows */
+    .nexo-header {
+      position: relative;
+      z-index: 4;
+      width: 100%;
+      max-width: 1360px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      transition:
+        opacity 0.65s var(--ease-cinematic),
+        transform 0.65s var(--ease-cinematic),
+        visibility 0.65s;
+    }
+
+    .nexo-brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(20px, 1.6vw, 24px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: var(--ink-dark);
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 4px 2px;
+    }
+
+    .nexo-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2.4vw, 32px);
+      flex-wrap: wrap;
+    }
+
+    .nexo-nav-link {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 1.1;
+      color: var(--ink-body);
+      text-decoration: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px 4px;
+      border-radius: 8px;
+      transition: opacity 0.25s ease, color 0.25s ease;
+    }
+
+    .nexo-nav-link:hover {
+      color: var(--ink-dark);
+      opacity: 0.72;
+    }
+
+    /* Main composition layout inside the single hero */
+    .nexo-composition {
+      position: relative;
+      width: 100%;
+      max-width: 1360px;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: clamp(10px, 1.8vh, 24px);
+      gap: clamp(8px, 1.4vh, 18px);
+    }
+
+    /* Top Title Block */
+    .nexo-headline-wrap {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 1120px;
+      text-align: center;
+      transition:
+        opacity 0.65s var(--ease-cinematic),
+        transform 0.65s var(--ease-cinematic),
+        visibility 0.65s;
+    }
+
+    .nexo-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(42px, 5.4vw, 88px);
+      line-height: 0.9;
+      letter-spacing: -0.07em;
+      color: var(--ink-dark);
+      text-transform: uppercase;
+      text-wrap: balance;
+      margin: 0 auto;
+    }
+
+    /* Centered Protagonist Stage (Video + Edge Fusion with #fbf8ef) */
+    .nexo-stage {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 880px);
+      height: clamp(290px, 50vh, 560px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: clamp(-14px, -1.6vh, -4px) auto;
+      transition:
+        transform 0.8s var(--ease-cinematic),
+        height 0.8s var(--ease-cinematic),
+        width 0.8s var(--ease-cinematic);
+    }
+
+    .nexo-media-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-cream);
+      /* Soft radial & edge mask so silhouette remains complete while borders dissolve into #fbf8ef */
+      -webkit-mask-image: radial-gradient(
+        ellipse 82% 84% at 50% 50%,
+        #000 66%,
+        rgba(0, 0, 0, 0.82) 80%,
+        transparent 100%
+      );
+      mask-image: radial-gradient(
+        ellipse 82% 84% at 50% 50%,
+        #000 66%,
+        rgba(0, 0, 0, 0.82) 80%,
+        transparent 100%
+      );
+    }
+
+    /* Additional feather overlay to blend any video edge seamlessly into #fbf8ef */
+    .nexo-media-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(to bottom, var(--bg-cream) 0%, transparent 11%, transparent 89%, var(--bg-cream) 100%),
+        linear-gradient(to right, var(--bg-cream) 0%, transparent 12%, transparent 88%, var(--bg-cream) 100%);
+      box-shadow: inset 0 0 44px 18px var(--bg-cream);
+    }
+
+    .nexo-video,
+    .nexo-static-poster {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+      background-color: var(--bg-cream);
+      user-select: none;
+    }
+
+    .nexo-static-poster {
+      display: none;
+    }
+
+    /* Bottom Copy & Actions Block */
+    .nexo-bottom {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: clamp(16px, 2.2vh, 24px);
+      transition:
+        opacity 0.65s var(--ease-cinematic),
+        transform 0.65s var(--ease-cinematic),
+        visibility 0.65s;
+    }
+
+    .nexo-subtitle {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(21px, 1.8vw, 26px);
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      color: var(--ink-body);
+      text-wrap: balance;
+    }
+
+    .nexo-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Buttons: centered text, no arrows, 60-66px height, rounded corners */
+    .nexo-btn {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 1;
+      height: 64px;
+      min-height: 60px;
+      max-height: 66px;
+      padding: 0 34px;
+      border-radius: 999px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition:
+        background-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        opacity 0.25s ease;
+    }
+
+    .nexo-btn--primary {
+      background-color: var(--btn-dark-bg);
+      color: var(--btn-dark-text);
+    }
+
+    .nexo-btn--primary:hover {
+      background-color: var(--btn-dark-hover);
+      transform: translateY(-1px);
+    }
+
+    .nexo-btn--primary:active {
+      transform: translateY(0);
+    }
+
+    .nexo-btn--secondary {
+      background-color: var(--btn-soft-bg);
+      color: var(--ink-dark);
+    }
+
+    .nexo-btn--secondary:hover {
+      background-color: var(--btn-soft-hover);
+      transform: translateY(-1px);
+    }
+
+    .nexo-btn--secondary:active {
+      transform: translateY(0);
+    }
+
+    /* Scene Mode Overlay Control ("Volver al inicio") */
+    .nexo-scene-return {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(24px, 3.6vh, 44px);
+      transform: translate(-50%, 16px);
+      z-index: 5;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        opacity 0.55s var(--ease-cinematic),
+        transform 0.55s var(--ease-cinematic),
+        visibility 0.55s;
+    }
+
+    /* Active Scene Mode: clears text to appreciate the video within the same hero */
+    .nexo-hero.is-scene-active .nexo-header,
+    .nexo-hero.is-scene-active .nexo-headline-wrap,
+    .nexo-hero.is-scene-active .nexo-bottom {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .nexo-hero.is-scene-active .nexo-header,
+    .nexo-hero.is-scene-active .nexo-headline-wrap {
+      transform: translateY(-20px);
+    }
+
+    .nexo-hero.is-scene-active .nexo-bottom {
+      transform: translateY(20px);
+    }
+
+    .nexo-hero.is-scene-active .nexo-stage {
+      width: min(100%, 1060px);
+      height: clamp(360px, 74vh, 760px);
+      transform: scale(1.04);
+    }
+
+    .nexo-hero.is-scene-active .nexo-scene-return {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
+    }
+
+    /* Screen-reader only live announcement */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Responsive adjustments: mobile keeps protagonist large without covering title */
+    @media (max-width: 767px) {
+      .nexo-hero {
+        min-height: 100svh;
+        height: auto;
+        padding: 18px 18px 28px;
+      }
+
+      .nexo-composition {
+        justify-content: flex-start;
+        gap: 14px;
+        margin-top: 12px;
+      }
+
+      .nexo-stage {
+        width: 100%;
+        height: clamp(280px, 44svh, 400px);
+        margin: 0 auto;
+      }
+
+      .nexo-subtitle {
+        font-size: 20px;
+        line-height: 1.22;
+      }
+
+      .nexo-actions {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nexo-actions .nexo-btn {
+        width: 100%;
+        max-width: 340px;
+        height: 62px;
+      }
+
+      .nexo-hero.is-scene-active .nexo-stage {
+        height: clamp(320px, 64svh, 520px);
+        transform: scale(1.02);
+      }
+    }
+
+    /* Allow hero to grow gracefully on short screens or landscape viewports */
+    @media (max-height: 740px) {
+      .nexo-hero {
+        height: auto;
+        min-height: 100svh;
+        padding-bottom: 36px;
+      }
+
+      .nexo-composition {
+        gap: 14px;
+      }
+
+      .nexo-stage {
+        height: clamp(260px, 48vh, 420px);
+        margin: 0 auto;
+      }
+    }
+
+    /* Respect prefers-reduced-motion: preserve static view and disable motion transitions */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .nexo-video {
+        display: none !important;
+      }
+
+      .nexo-static-poster {
+        display: block !important;
+      }
+
+      .nexo-hero.is-scene-active .nexo-stage {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section
+    id="nexo-hero"
+    class="nexo-hero"
+    aria-labelledby="nexo-main-title"
+  >
+    <!-- Header with brand and simple navigation; no eyebrows, divider lines, or micro decorative text -->
+    <header class="nexo-header">
+      <a href="#nexo-hero" class="nexo-brand" id="nexo-brand-link">Nexo</a>
+      <nav class="nexo-nav" aria-label="Navegación principal">
+        <a href="#nexo-stage" class="nexo-nav-link">Presencia</a>
+        <a href="#nexo-actions" class="nexo-nav-link">Encuentro</a>
+        <button
+          type="button"
+          class="nexo-nav-link"
+          id="nav-scene-trigger"
+          aria-controls="nexo-stage"
+          aria-expanded="false"
+        >
+          Ver escena
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Hero Composition -->
+    <div class="nexo-composition">
+      <div class="nexo-headline-wrap">
+        <h1 id="nexo-main-title" class="nexo-title">
+          INTELIGENCIA. CON PRESENCIA.
+        </h1>
+      </div>
+
+      <!-- Centered Robot Video & Static Poster Fallback -->
+      <div id="nexo-stage" class="nexo-stage" tabindex="-1">
+        <div class="nexo-media-frame">
+          <video
+            id="nexo-video"
+            class="nexo-video"
+            src="https://media.dinamosites.com/library/v1/sections/cinematic-nexo-bddc63806488.mp4"
+            poster="https://dinamosites.com/demos/cinematic-heroes-v1/media/nexo.jpg"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            aria-label="Robot amarillo de cerámica y metal Nexo en movimiento"
+          ></video>
+          <img
+            id="nexo-static-poster"
+            class="nexo-static-poster"
+            src="https://dinamosites.com/demos/cinematic-heroes-v1/media/nexo.jpg"
+            alt="Robot amarillo de cerámica y metal Nexo"
+          />
+        </div>
+      </div>
+
+      <!-- Subtitle and Centered Buttons -->
+      <div class="nexo-bottom" id="nexo-actions">
+        <p class="nexo-subtitle">Una nueva manera de encontrarnos.</p>
+        <div class="nexo-actions">
+          <button
+            type="button"
+            id="cta-discover-btn"
+            class="nexo-btn nexo-btn--primary"
+            aria-controls="nexo-stage"
+            aria-expanded="false"
+          >
+            Conocer a Nexo
+          </button>
+          <button
+            type="button"
+            id="cta-scene-btn"
+            class="nexo-btn nexo-btn--secondary"
+            aria-controls="nexo-stage"
+            aria-expanded="false"
+          >
+            Ver escena
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Return control shown when scene mode clears text -->
+    <div class="nexo-scene-return">
+      <button
+        type="button"
+        id="scene-return-btn"
+        class="nexo-btn nexo-btn--primary"
+        aria-label="Volver al inicio y mostrar el contenido"
+      >
+        Volver al inicio
+      </button>
+    </div>
+
+    <div id="scene-live-status" class="sr-only" aria-live="polite"></div>
+  </section>
+
+  <script>
+    (function () {
+      const hero = document.getElementById('nexo-hero');
+      const video = document.getElementById('nexo-video');
+      const staticPoster = document.getElementById('nexo-static-poster');
+      const discoverBtn = document.getElementById('cta-discover-btn');
+      const sceneBtn = document.getElementById('cta-scene-btn');
+      const navSceneBtn = document.getElementById('nav-scene-trigger');
+      const returnBtn = document.getElementById('scene-return-btn');
+      const liveStatus = document.getElementById('scene-live-status');
+
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let isInViewport = true;
+      let lastTriggerElement = discoverBtn;
+
+      function shouldPlayVideo() {
+        return !reducedMotionQuery.matches && isInViewport && !document.hidden;
+      }
+
+      function syncVideoPlayback() {
+        if (!video) return;
+        if (reducedMotionQuery.matches) {
+          video.pause();
+          return;
+        }
+        if (shouldPlayVideo()) {
+          const playPromise = video.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(function () {
+              /* Autoplay prevented or media unavailable; poster remains visible */
+            });
+          }
+        } else {
+          video.pause();
+        }
+      }
+
+      function setExpandedState(expanded) {
+        const value = expanded ? 'true' : 'false';
+        [discoverBtn, sceneBtn, navSceneBtn].forEach(function (btn) {
+          if (btn) btn.setAttribute('aria-expanded', value);
+        });
+      }
+
+      function openSceneMode(triggerEl) {
+        if (triggerEl) {
+          lastTriggerElement = triggerEl;
+        }
+        hero.classList.add('is-scene-active');
+        setExpandedState(true);
+        if (liveStatus) {
+          liveStatus.textContent = 'Vista de escena activada. Presiona Escape o Volver al inicio para restaurar el texto.';
+        }
+        syncVideoPlayback();
+        window.setTimeout(function () {
+          if (returnBtn) returnBtn.focus();
+        }, 60);
+      }
+
+      function closeSceneMode() {
+        if (!hero.classList.contains('is-scene-active')) return;
+        hero.classList.remove('is-scene-active');
+        setExpandedState(false);
+        if (liveStatus) {
+          liveStatus.textContent = 'Contenido principal restaurado.';
+        }
+        window.setTimeout(function () {
+          if (lastTriggerElement && typeof lastTriggerElement.focus === 'function') {
+            lastTriggerElement.focus();
+          }
+        }, 60);
+      }
+
+      if (discoverBtn) {
+        discoverBtn.addEventListener('click', function () {
+          openSceneMode(discoverBtn);
+        });
+      }
+
+      if (sceneBtn) {
+        sceneBtn.addEventListener('click', function () {
+          openSceneMode(sceneBtn);
+        });
+      }
+
+      if (navSceneBtn) {
+        navSceneBtn.addEventListener('click', function () {
+          openSceneMode(navSceneBtn);
+        });
+      }
+
+      if (returnBtn) {
+        returnBtn.addEventListener('click', function () {
+          closeSceneMode();
+        });
+      }
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && hero.classList.contains('is-scene-active')) {
+          event.preventDefault();
+          closeSceneMode();
+        }
+      });
+
+      /* Pause video when off-screen using IntersectionObserver */
+      if ('IntersectionObserver' in window && hero) {
+        const observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              isInViewport = entry.isIntersecting && entry.intersectionRatio > 0.1;
+              syncVideoPlayback();
+            });
+          },
+          { threshold: [0, 0.1, 0.25] }
+        );
+        observer.observe(hero);
+      }
+
+      /* Pause video when browser tab is hidden */
+      document.addEventListener('visibilitychange', function () {
+        syncVideoPlayback();
+      });
+
+      /* Listen to prefers-reduced-motion changes dynamically */
+      if (typeof reducedMotionQuery.addEventListener === 'function') {
+        reducedMotionQuery.addEventListener('change', syncVideoPlayback);
+      } else if (typeof reducedMotionQuery.addListener === 'function') {
+        reducedMotionQuery.addListener(syncVideoPlayback);
+      }
+
+      /* Graceful fallback to static image if video fails to load */
+      if (video) {
+        video.addEventListener('error', function () {
+          video.style.display = 'none';
+          if (staticPoster) staticPoster.style.display = 'block';
+        });
+      }
+
+      syncVideoPlayback();
+    })();
+  </script>
+</body>
+</html>

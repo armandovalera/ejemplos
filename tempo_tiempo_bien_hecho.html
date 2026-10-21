@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tempo — TIEMPO. BIEN HECHO.</title>
+  <!-- Google Fonts: Outfit 500 & DM Sans 400/500 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Outfit:wght@500&display=swap"
+    rel="stylesheet"
+  />
+  <!-- Reference URLs metadata (Dinamo Sites Cinematic Heroes v1 — Tempo) -->
+  <!-- Vista: https://dinamosites.com/demos/cinematic-heroes-v1/index.html?scene=tempo -->
+  <!-- Implementación: https://dinamosites.com/demos/cinematic-heroes-v1/source/centered.js -->
+  <!-- Estilos: https://dinamosites.com/demos/cinematic-heroes-v1/source/centered.css -->
+  <style>
+    :root {
+      --bg-jade-deep: #051e14;
+      --bg-jade-surface: #082b1d;
+      --text-champagne: #e2d5b5;
+      --text-champagne-muted: rgba(226, 213, 181, 0.78);
+      --text-champagne-soft: rgba(226, 213, 181, 0.14);
+      --btn-champagne-bg: #e2d5b5;
+      --btn-champagne-hover: #efe4c8;
+      --btn-champagne-text: #051e14;
+      --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-jade-deep);
+      color: var(--text-champagne);
+      font-family: var(--font-sans);
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Accessible Focus Styles */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--text-champagne);
+      outline-offset: 4px;
+    }
+
+    /* ==========================================================================
+       HERO SECTION — TEMPO (Centered Cinematic Layout)
+       ========================================================================== */
+    .tempo-hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
+      height: auto;
+      background-color: var(--bg-jade-deep);
+      color: var(--text-champagne);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      padding: clamp(20px, 3vw, 38px) clamp(20px, 4.5vw, 64px) clamp(28px, 4vw, 52px);
+    }
+
+    /* Media Layer — Full-bleed Centered Protagonist */
+    .tempo-hero__media {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-jade-deep);
+      pointer-events: none;
+    }
+
+    .tempo-hero__video,
+    .tempo-hero__poster-fallback {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      transform: scale(1);
+      transition: transform 0.9s var(--ease-cinematic), opacity 0.6s ease;
+    }
+
+    .tempo-hero__poster-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      opacity: 0;
+    }
+
+    .tempo-hero.is-static-media .tempo-hero__poster-fallback {
+      opacity: 1;
+    }
+
+    .tempo-hero.is-static-media .tempo-hero__video {
+      opacity: 0;
+    }
+
+    /* Subtle radial vignette to preserve headline & footer legibility without obscuring the watch */
+    .tempo-hero__scrim {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(5, 30, 20, 0.68) 0%,
+          rgba(5, 30, 20, 0.08) 28%,
+          rgba(5, 30, 20, 0.06) 68%,
+          rgba(5, 30, 20, 0.76) 100%
+        );
+      transition: opacity 0.65s var(--ease-cinematic);
+      pointer-events: none;
+    }
+
+    .tempo-hero.is-scene-active .tempo-hero__scrim {
+      opacity: 0.18;
+    }
+
+    /* ==========================================================================
+       HEADER — Simple Brand & Navigation (No eyebrows, no dividers, no clutter)
+       ========================================================================== */
+    .tempo-header {
+      width: 100%;
+      max-width: 1440px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      z-index: 10;
+      transition: opacity 0.55s var(--ease-cinematic), transform 0.55s var(--ease-cinematic);
+    }
+
+    .tempo-brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(20px, 1.5vw, 24px);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--text-champagne);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 0;
+    }
+
+    .tempo-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 2.6vw, 38px);
+      list-style: none;
+    }
+
+    .tempo-nav__link {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.2;
+      color: var(--text-champagne);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 4px;
+      opacity: 0.88;
+      transition: opacity 0.25s ease;
+    }
+
+    .tempo-nav__link:hover,
+    .tempo-nav__link[aria-expanded="true"] {
+      opacity: 1;
+    }
+
+    .tempo-nav__scene-btn {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 1;
+      color: var(--text-champagne);
+      background: rgba(226, 213, 181, 0.1);
+      border: none;
+      border-radius: 999px;
+      height: 60px;
+      padding: 0 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .tempo-nav__scene-btn:hover {
+      background: rgba(226, 213, 181, 0.18);
+    }
+
+    /* ==========================================================================
+       HERO CONTENT — Top Title, Centered Protagonist Space, Bottom Subtitle & CTA
+       ========================================================================== */
+    .tempo-hero__stage {
+      width: 100%;
+      max-width: 1440px;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      gap: clamp(24px, 4vh, 48px);
+      padding-top: clamp(12px, 2.2vh, 28px);
+      z-index: 5;
+      transition: opacity 0.6s var(--ease-cinematic), transform 0.6s var(--ease-cinematic);
+    }
+
+    .tempo-hero__top {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .tempo-hero__title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(48px, 5.4vw, 90px);
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      color: var(--text-champagne);
+      text-wrap: balance;
+    }
+
+    /* Central Watch Showcase Slot (used on mobile / low screens to reserve protagonist space) */
+    .tempo-hero__protagonist-slot {
+      width: 100%;
+      flex: 1 1 clamp(220px, 38vh, 440px);
+      min-height: clamp(200px, 34vh, 420px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      pointer-events: none;
+    }
+
+    .tempo-hero__bottom {
+      width: 100%;
+      max-width: 580px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(18px, 2.4vh, 28px);
+    }
+
+    .tempo-hero__subtitle {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(21px, 1.65vw, 26px);
+      line-height: 1.32;
+      letter-spacing: -0.01em;
+      color: var(--text-champagne);
+      text-wrap: balance;
+    }
+
+    .tempo-hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    /* Primary Champagne Button (60-66px height, centered text, rounded, no arrows) */
+    .tempo-btn {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 1;
+      height: 64px;
+      min-height: 60px;
+      max-height: 66px;
+      padding: 0 36px;
+      border-radius: 999px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    }
+
+    .tempo-btn--champagne {
+      background-color: var(--btn-champagne-bg);
+      color: var(--btn-champagne-text);
+    }
+
+    .tempo-btn--champagne:hover {
+      background-color: var(--btn-champagne-hover);
+      transform: translateY(-1px);
+    }
+
+    .tempo-btn--champagne:active {
+      transform: translateY(0);
+    }
+
+    .tempo-btn--ghost {
+      background-color: rgba(5, 30, 20, 0.72);
+      color: var(--text-champagne);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .tempo-btn--ghost:hover {
+      background-color: rgba(8, 43, 29, 0.88);
+    }
+
+    /* ==========================================================================
+       SCENE MODE ("Observar de cerca" / "Ver escena")
+       Clears text inside the same hero; "Volver al inicio" or Escape restores it
+       ========================================================================== */
+    .tempo-hero.is-scene-active .tempo-header,
+    .tempo-hero.is-scene-active .tempo-hero__stage {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    .tempo-scene-controls {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(24px, 4vw, 48px);
+      transform: translate(-50%, 16px);
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s var(--ease-cinematic), transform 0.45s var(--ease-cinematic);
+    }
+
+    .tempo-hero.is-scene-active .tempo-scene-controls {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      pointer-events: auto;
+    }
+
+    /* ==========================================================================
+       IN-HERO SPECIFICATION SHEET (For navigation items, keeping single hero)
+       ========================================================================== */
+    .tempo-spec-dialog {
+      position: absolute;
+      bottom: clamp(118px, 16vh, 156px);
+      left: 50%;
+      transform: translate(-50%, 12px);
+      width: min(92vw, 460px);
+      background: rgba(5, 30, 20, 0.88);
+      color: var(--text-champagne);
+      border-radius: 24px;
+      padding: 24px 28px;
+      z-index: 15;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s var(--ease-cinematic), transform 0.35s var(--ease-cinematic);
+      text-align: center;
+    }
+
+    .tempo-spec-dialog.is-open {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      pointer-events: auto;
+    }
+
+    .tempo-spec-dialog__title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .tempo-spec-dialog__body {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.45;
+      color: var(--text-champagne-muted);
+      margin-bottom: 18px;
+    }
+
+    /* ==========================================================================
+       LATERAL COMPOSITION SUPPORT (Stacks text & protagonist on mobile)
+       ========================================================================== */
+    .tempo-hero--lateral .tempo-hero__stage {
+      flex-direction: row;
+      text-align: left;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE — Mobile & Short Screens
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .tempo-hero {
+        padding: 18px 20px 28px;
+        justify-content: space-between;
+      }
+
+      .tempo-header {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .tempo-nav {
+        gap: 14px;
+      }
+
+      .tempo-nav__scene-btn {
+        height: 60px;
+        padding: 0 20px;
+        font-size: 15px;
+      }
+
+      /* On mobile preserve full watch with object-fit: contain without covering title */
+      .tempo-hero__media {
+        padding: 110px 0 150px;
+      }
+
+      .tempo-hero__video,
+      .tempo-hero__poster-fallback {
+        object-fit: contain;
+        object-position: center center;
+      }
+
+      .tempo-hero.is-scene-active .tempo-hero__media {
+        padding: 24px 0 96px;
+      }
+
+      .tempo-hero__stage,
+      .tempo-hero--lateral .tempo-hero__stage {
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .tempo-hero__protagonist-slot {
+        flex: 1 1 280px;
+        min-height: 260px;
+      }
+
+      .tempo-hero__subtitle {
+        font-size: 20px;
+      }
+
+      .tempo-btn {
+        width: 100%;
+        max-width: 320px;
+        height: 62px;
+      }
+    }
+
+    /* Allow hero to grow gracefully on short screens */
+    @media (max-height: 720px) {
+      .tempo-hero {
+        min-height: 100svh;
+        height: auto;
+        padding-top: 18px;
+        padding-bottom: 24px;
+      }
+
+      .tempo-hero__protagonist-slot {
+        min-height: 220px;
+      }
+    }
+
+    /* Respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section
+    id="tempo-hero"
+    class="tempo-hero"
+    aria-label="Tempo — Sección hero cinematográfica"
+  >
+    <!-- Centered Video & Static Poster Layer -->
+    <div class="tempo-hero__media" aria-hidden="true">
+      <video
+        id="tempo-video"
+        class="tempo-hero__video"
+        src="https://media.dinamosites.com/library/v1/sections/cinematic-tempo-a7e28965006b.mp4"
+        poster="https://dinamosites.com/demos/cinematic-heroes-v1/media/tempo.jpg"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="metadata"
+      ></video>
+      <img
+        id="tempo-poster-fallback"
+        class="tempo-hero__poster-fallback"
+        src="https://dinamosites.com/demos/cinematic-heroes-v1/media/tempo.jpg"
+        alt="Reloj metálico Tempo con esfera verde en cavidad de jade"
+      />
+      <div class="tempo-hero__scrim"></div>
+    </div>
+
+    <!-- Simple Header: Brand + Clean Navigation -->
+    <header class="tempo-header" id="tempo-header">
+      <button
+        type="button"
+        id="tempo-brand-btn"
+        class="tempo-brand"
+        aria-label="Tempo inicio"
+      >
+        TEMPO
+      </button>
+
+      <nav aria-label="Navegación principal">
+        <ul class="tempo-nav">
+          <li>
+            <button
+              type="button"
+              class="tempo-nav__link"
+              data-spec="calibre"
+              aria-expanded="false"
+              aria-controls="tempo-spec-dialog"
+            >
+              Calibre
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="tempo-nav__link"
+              data-spec="materia"
+              aria-expanded="false"
+              aria-controls="tempo-spec-dialog"
+            >
+              Materia
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              id="btn-ver-escena"
+              class="tempo-nav__scene-btn"
+              aria-pressed="false"
+            >
+              Ver escena
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main Centered Stage: Top Title, Center Protagonist Space, Bottom Copy & CTA -->
+    <div class="tempo-hero__stage" id="tempo-stage">
+      <div class="tempo-hero__top">
+        <h1 class="tempo-hero__title">TIEMPO. BIEN HECHO.</h1>
+      </div>
+
+      <div class="tempo-hero__protagonist-slot" aria-hidden="true"></div>
+
+      <div class="tempo-hero__bottom">
+        <p class="tempo-hero__subtitle">Cada detalle tiene su momento.</p>
+        <div class="tempo-hero__actions">
+          <button
+            type="button"
+            id="btn-observar"
+            class="tempo-btn tempo-btn--champagne"
+          >
+            Observar de cerca
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- In-Hero Spec Popover (keeps single-hero constraint while making nav interactive) -->
+    <div
+      id="tempo-spec-dialog"
+      class="tempo-spec-dialog"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="tempo-spec-title"
+      aria-hidden="true"
+    >
+      <h2 id="tempo-spec-title" class="tempo-spec-dialog__title">Calibre Automático</h2>
+      <p id="tempo-spec-body" class="tempo-spec-dialog__body">
+        Arquitectura mecánica de alta precisión con esfera verde esmeralda engastada en cavidad escultórica de jade.
+      </p>
+      <button
+        type="button"
+        id="btn-cerrar-spec"
+        class="tempo-btn tempo-btn--champagne"
+      >
+        Cerrar detalle
+      </button>
+    </div>
+
+    <!-- Scene Mode Restore Control -->
+    <div class="tempo-scene-controls" id="tempo-scene-controls" aria-hidden="true">
+      <button
+        type="button"
+        id="btn-volver-inicio"
+        class="tempo-btn tempo-btn--champagne"
+      >
+        Volver al inicio
+      </button>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const hero = document.getElementById('tempo-hero');
+      const video = document.getElementById('tempo-video');
+      const header = document.getElementById('tempo-header');
+      const stage = document.getElementById('tempo-stage');
+      const sceneControls = document.getElementById('tempo-scene-controls');
+
+      const btnObservar = document.getElementById('btn-observar');
+      const btnVerEscena = document.getElementById('btn-ver-escena');
+      const btnVolverInicio = document.getElementById('btn-volver-inicio');
+      const btnBrand = document.getElementById('tempo-brand-btn');
+
+      const specDialog = document.getElementById('tempo-spec-dialog');
+      const specTitle = document.getElementById('tempo-spec-title');
+      const specBody = document.getElementById('tempo-spec-body');
+      const btnCerrarSpec = document.getElementById('btn-cerrar-spec');
+      const specButtons = document.querySelectorAll('[data-spec]');
+
+      const SPECS = {
+        calibre: {
+          title: 'Calibre Manufactura T-01',
+          body: 'Movimiento mecánico con reserva de marcha de 72 horas, oscilación silenciosa y acabados cepillados a mano.'
+        },
+        materia: {
+          title: 'Acero y Esfera Jade',
+          body: 'Caja metálica de geometría continua con esfera verde profundo reposando sobre cavidad mineral de jade.'
+        }
+      };
+
+      let isSceneActive = false;
+      let isInViewport = true;
+      let lastTriggerElement = btnObservar;
+      let activeSpecKey = null;
+
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      function syncVideoPlayback() {
+        if (!video) return;
+
+        if (reducedMotionQuery.matches) {
+          hero.classList.add('is-static-media');
+          video.pause();
+          return;
+        }
+
+        hero.classList.remove('is-static-media');
+
+        if (isInViewport && !document.hidden) {
+          const playPromise = video.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(function () {
+              // Fallback to static poster if browser blocks autoplay
+            });
+          }
+        } else {
+          video.pause();
+        }
+      }
+
+      function closeSpecDialog() {
+        activeSpecKey = null;
+        specDialog.classList.remove('is-open');
+        specDialog.setAttribute('aria-hidden', 'true');
+        specButtons.forEach(function (btn) {
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      function openSpecDialog(key, triggerBtn) {
+        if (activeSpecKey === key) {
+          closeSpecDialog();
+          return;
+        }
+        const data = SPECS[key];
+        if (!data) return;
+
+        activeSpecKey = key;
+        specTitle.textContent = data.title;
+        specBody.textContent = data.body;
+        specDialog.classList.add('is-open');
+        specDialog.setAttribute('aria-hidden', 'false');
+
+        specButtons.forEach(function (btn) {
+          btn.setAttribute('aria-expanded', btn === triggerBtn ? 'true' : 'false');
+        });
+      }
+
+      function enterSceneMode(triggerEl) {
+        lastTriggerElement = triggerEl || btnObservar;
+        closeSpecDialog();
+        isSceneActive = true;
+        hero.classList.add('is-scene-active');
+        header.setAttribute('aria-hidden', 'true');
+        stage.setAttribute('aria-hidden', 'true');
+        sceneControls.setAttribute('aria-hidden', 'false');
+        btnVerEscena.setAttribute('aria-pressed', 'true');
+        btnVolverInicio.focus();
+      }
+
+      function exitSceneMode() {
+        if (!isSceneActive) return;
+        isSceneActive = false;
+        hero.classList.remove('is-scene-active');
+        header.setAttribute('aria-hidden', 'false');
+        stage.setAttribute('aria-hidden', 'false');
+        sceneControls.setAttribute('aria-hidden', 'true');
+        btnVerEscena.setAttribute('aria-pressed', 'false');
+        if (lastTriggerElement && typeof lastTriggerElement.focus === 'function') {
+          lastTriggerElement.focus();
+        }
+      }
+
+      // Wire scene mode buttons
+      btnObservar.addEventListener('click', function () {
+        enterSceneMode(btnObservar);
+      });
+
+      btnVerEscena.addEventListener('click', function () {
+        enterSceneMode(btnVerEscena);
+      });
+
+      btnVolverInicio.addEventListener('click', function () {
+        exitSceneMode();
+      });
+
+      btnBrand.addEventListener('click', function () {
+        closeSpecDialog();
+        exitSceneMode();
+      });
+
+      // Wire spec buttons
+      specButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          openSpecDialog(btn.getAttribute('data-spec'), btn);
+        });
+      });
+
+      btnCerrarSpec.addEventListener('click', function () {
+        const prevBtn = document.querySelector('[data-spec="' + activeSpecKey + '"]');
+        closeSpecDialog();
+        if (prevBtn) prevBtn.focus();
+      });
+
+      // Keyboard navigation: Escape restores content or closes spec dialog
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          if (isSceneActive) {
+            event.preventDefault();
+            exitSceneMode();
+          } else if (activeSpecKey) {
+            event.preventDefault();
+            const prevBtn = document.querySelector('[data-spec="' + activeSpecKey + '"]');
+            closeSpecDialog();
+            if (prevBtn) prevBtn.focus();
+          }
+        }
+      });
+
+      // Pause video when hero is outside viewport
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              isInViewport = entry.isIntersecting && entry.intersectionRatio > 0.05;
+              syncVideoPlayback();
+            });
+          },
+          { threshold: [0, 0.05, 0.25] }
+        );
+        observer.observe(hero);
+      }
+
+      // Pause video when tab is hidden
+      document.addEventListener('visibilitychange', syncVideoPlayback);
+
+      // Listen for prefers-reduced-motion changes
+      if (typeof reducedMotionQuery.addEventListener === 'function') {
+        reducedMotionQuery.addEventListener('change', syncVideoPlayback);
+      }
+
+      // Handle video error fallback gracefully
+      video.addEventListener('error', function () {
+        hero.classList.add('is-static-media');
+      });
+
+      // Initial sync
+      syncVideoPlayback();
+    })();
+  </script>
+</body>
+</html>

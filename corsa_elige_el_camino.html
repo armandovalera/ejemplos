@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corsa — Elige el camino</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #091d27;
+      color: #ffefe0;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    .center-track.center-corsa {
+      --bg: #091d27;
+      --fg: #ffefe0;
+      --family: 'Anton';
+      --weight: 400;
+      position: relative;
+      height: auto;
+      color: var(--fg);
+      background: var(--bg);
+    }
+
+    .center-stage {
+      position: relative;
+      min-height: 100svh;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--bg);
+    }
+
+    /* Art & Video Layer */
+    .center-art {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        radial-gradient(circle at 50% 54%, #d94b2b33 0%, transparent 38%),
+        linear-gradient(180deg, #0d2c3b 0%, #173f52 42%, #2b3a42 62%, #091d27 100%);
+    }
+
+    .center-art img,
+    .center-art video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 50%;
+      display: block;
+    }
+
+    .center-art video {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .center-stage.has-film .center-art video {
+      opacity: 1;
+    }
+
+    /* Petrol Blue & Sunset Shade Overlay */
+    .center-shade {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(180deg, #00182540, transparent 45%),
+        linear-gradient(0deg, #00151edd, transparent 32%);
+      transition: opacity 0.65s ease;
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    /* Upper Composition: Header + Hero Title */
+    .center-top {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      padding: 30px 4.5% 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .center-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .center-brand {
+      font-family: 'Anton', sans-serif;
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .center-explore {
+      border: 0;
+      background: none;
+      color: inherit;
+      padding: 10px 0;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .center-brand:focus-visible,
+    .center-explore:focus-visible,
+    .center-cta:focus-visible,
+    .center-return:focus-visible {
+      outline: 3px solid currentColor;
+      outline-offset: 5px;
+    }
+
+    .center-title {
+      margin: 28px 0 0;
+      text-align: center;
+      font-family: var(--family), sans-serif;
+      font-weight: var(--weight);
+      font-size: clamp(95px, 12vw, 210px);
+      line-height: 0.88;
+      letter-spacing: -0.025em;
+      color: var(--fg);
+      text-wrap: balance;
+      transition: opacity 0.45s ease, transform 0.5s ease;
+    }
+
+    .center-title br {
+      display: none;
+    }
+
+    /* Protagonist Framing Reserve so low viewports grow naturally without overlapping */
+    .center-spacer {
+      flex: 1 1 auto;
+      min-height: clamp(230px, 38vh, 460px);
+      pointer-events: none;
+    }
+
+    /* Bottom Composition: Supporting Copy + Primary Action */
+    .center-bottom {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      padding: 0 4.5% 38px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      transition: opacity 0.45s ease;
+    }
+
+    .center-bottom p {
+      margin: 0;
+      max-width: 280px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      font-size: clamp(21px, 1.8vw, 26px);
+      line-height: 1.25;
+      text-align: left;
+      color: var(--fg);
+    }
+
+    /* Primary & Return Buttons: 60-66px height, rounded, centered text, no arrows */
+    .center-cta {
+      border: 1px solid color-mix(in srgb, var(--fg) 78%, transparent);
+      border-radius: 999px;
+      background: var(--fg);
+      color: var(--bg);
+      min-height: 62px;
+      height: 62px;
+      padding: 0 32px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 3px 16px #0000001f;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .center-cta:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .center-return {
+      position: absolute;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      border: 1px solid #ffefe070;
+      border-radius: 999px;
+      background: #091d27cc;
+      color: var(--fg);
+      min-height: 62px;
+      height: 62px;
+      padding: 0 30px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 7;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.2s ease, background 0.2s ease;
+    }
+
+    /* Immersive Scene State */
+    .center-stage.immersive .center-title,
+    .center-stage.immersive .center-bottom,
+    .center-stage.immersive .center-explore {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .center-stage.immersive .center-title {
+      transform: translateY(-18px);
+    }
+
+    .center-stage.immersive .center-shade {
+      opacity: 0;
+    }
+
+    .center-stage.immersive .center-return {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Hover capabilities */
+    @media (hover: hover) {
+      .center-brand:hover,
+      .center-explore:hover {
+        opacity: 0.75;
+      }
+
+      .center-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px #0000002e;
+      }
+
+      .center-return:hover {
+        background: #091d27eb;
+        transform: translateX(-50%) translateY(-2px);
+      }
+    }
+
+    /* Mobile Responsive Breakpoint */
+    @media (max-width: 700px) {
+      .center-stage {
+        min-height: max(100svh, 690px);
+      }
+
+      .center-art img,
+      .center-art video {
+        object-fit: cover;
+        object-position: 50% 45%;
+      }
+
+      .center-top {
+        padding: 26px 24px 0;
+      }
+
+      .center-brand {
+        font-size: 28px;
+      }
+
+      .center-explore {
+        font-size: 16px;
+      }
+
+      .center-title {
+        margin-top: 24px;
+        font-size: clamp(70px, 20vw, 130px);
+        line-height: 0.9;
+      }
+
+      .center-title br {
+        display: block;
+      }
+
+      .center-spacer {
+        min-height: clamp(220px, 34vh, 360px);
+      }
+
+      .center-bottom {
+        padding: 0 24px 30px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 20px;
+      }
+
+      .center-bottom p {
+        font-size: 20px;
+        max-width: 320px;
+        text-align: center;
+      }
+
+      .center-cta {
+        min-height: 60px;
+        height: 60px;
+        font-size: 17px;
+        padding: 0 28px;
+      }
+
+      .center-return {
+        bottom: 32px;
+        min-height: 60px;
+        height: 60px;
+        font-size: 16px;
+      }
+    }
+
+    /* Reduced Motion Preference */
+    @media (prefers-reduced-motion: reduce) {
+      .center-art video {
+        display: none;
+      }
+
+      .center-shade,
+      .center-title,
+      .center-bottom,
+      .center-cta,
+      .center-return,
+      .center-explore,
+      .center-brand {
+        transition: none !important;
+        transform: none !important;
+      }
+
+      .center-return {
+        transform: translateX(-50%) !important;
+      }
+
+      .center-stage.immersive .center-title,
+      .center-stage.immersive .center-bottom,
+      .center-stage.immersive .center-explore {
+        opacity: 0;
+      }
+
+      .center-stage.immersive .center-shade {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body class="centered-page">
+  <main>
+    <section class="center-track center-corsa" id="opening" aria-label="Corsa">
+      <div class="center-stage" id="corsa-stage">
+        <div class="center-art">
+          <img
+            src="https://dinamosites.com/demos/cinematic-heroes-v1/media/corsa.jpg"
+            alt="Automóvil rojo centrado en una carretera costera al atardecer"
+            fetchpriority="high"
+          >
+          <video
+            id="corsa-video"
+            muted
+            loop
+            autoplay
+            playsinline
+            preload="metadata"
+            poster="https://dinamosites.com/demos/cinematic-heroes-v1/media/corsa.jpg"
+            aria-hidden="true"
+          ></video>
+        </div>
+
+        <div class="center-shade" aria-hidden="true"></div>
+
+        <div class="center-top">
+          <header class="center-header">
+            <a class="center-brand" id="corsa-brand" href="#opening">Corsa</a>
+            <button class="center-explore" id="corsa-explore" type="button" aria-controls="corsa-stage" aria-expanded="false">
+              Ver escena
+            </button>
+          </header>
+          <h1 class="center-title">ELIGE<br>EL CAMINO.</h1>
+        </div>
+
+        <div class="center-spacer" aria-hidden="true"></div>
+
+        <div class="center-bottom">
+          <p>La carretera también es el destino.</p>
+          <button class="center-cta" id="corsa-cta" type="button" aria-controls="corsa-stage" aria-expanded="false">
+            Empezar el recorrido
+          </button>
+        </div>
+
+        <button class="center-return" id="corsa-return" type="button" aria-controls="corsa-stage">
+          Volver al inicio
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const VIDEO_URL = 'https://media.dinamosites.com/library/v1/sections/cinematic-corsa-1d34d7297f43.mp4';
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const track = document.getElementById('opening');
+      const stage = document.getElementById('corsa-stage');
+      const video = document.getElementById('corsa-video');
+      const brand = document.getElementById('corsa-brand');
+      const exploreBtn = document.getElementById('corsa-explore');
+      const ctaBtn = document.getElementById('corsa-cta');
+      const returnBtn = document.getElementById('corsa-return');
+
+      let visible = true;
+      let immersive = false;
+      let lastTrigger = ctaBtn;
+
+      function sync() {
+        if (reduced.matches || document.hidden || !visible) {
+          video.pause();
+          return;
+        }
+        if (!video.getAttribute('src')) {
+          video.src = VIDEO_URL;
+          video.load();
+        }
+        video.play().catch(function () {});
+      }
+
+      video.addEventListener('canplay', function () {
+        stage.classList.add('has-film');
+        sync();
+      });
+
+      video.addEventListener('error', function () {
+        stage.classList.remove('has-film');
+      });
+
+      const observer = new IntersectionObserver(
+        function (entries) {
+          const entry = entries[0];
+          if (entry) {
+            visible = entry.isIntersecting;
+            sync();
+          }
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(stage);
+
+      document.addEventListener('visibilitychange', sync);
+      reduced.addEventListener('change', sync);
+
+      function openScene(triggerEl) {
+        lastTrigger = triggerEl || ctaBtn;
+        immersive = true;
+        stage.classList.add('immersive');
+        exploreBtn.setAttribute('aria-expanded', 'true');
+        ctaBtn.setAttribute('aria-expanded', 'true');
+        if (!reduced.matches) {
+          try {
+            video.currentTime = 0;
+          } catch (err) {}
+        }
+        sync();
+        returnBtn.focus({ preventScroll: true });
+      }
+
+      function backToStart() {
+        immersive = false;
+        stage.classList.remove('immersive');
+        exploreBtn.setAttribute('aria-expanded', 'false');
+        ctaBtn.setAttribute('aria-expanded', 'false');
+        track.scrollIntoView({ behavior: reduced.matches ? 'instant' : 'smooth' });
+        const target = lastTrigger || ctaBtn;
+        target.focus({ preventScroll: true });
+        sync();
+      }
+
+      ctaBtn.addEventListener('click', function () {
+        openScene(ctaBtn);
+      });
+
+      exploreBtn.addEventListener('click', function () {
+        openScene(exploreBtn);
+      });
+
+      returnBtn.addEventListener('click', function () {
+        backToStart();
+      });
+
+      brand.addEventListener('click', function (e) {
+        if (immersive) {
+          e.preventDefault();
+          backToStart();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && immersive) {
+          backToStart();
+        }
+      });
+
+      sync();
+
+      window.addEventListener(
+        'pagehide',
+        function () {
+          video.pause();
+          observer.disconnect();
+        },
+        { once: true }
+      );
+    })();
+  </script>
+</body>
+</html>
